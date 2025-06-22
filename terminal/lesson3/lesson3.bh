@@ -1,0 +1,5 @@
+#!/bin/bash
+read -p 'Введите свой имя: ' name
+mkdir $name
+echo "Привет $name ! Это твоя первая папка" > $name/welcome.txt
+echo "Дерриктория  $name создана"
