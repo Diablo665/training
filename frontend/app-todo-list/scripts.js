@@ -13,7 +13,7 @@ function UpdateAll(){
 var newTask = document.getElementById('addTask')
     newTask.addEventListener("click", function() {
         text = document.getElementById('newTask');
-        if (text.value.length > 0){
+        if (text.value.trim().length > 0){
             taskList = document.querySelector('.taskList');
             taskList.insertAdjacentHTML('beforeend', `
             <div class = "task"> 
