@@ -36,6 +36,7 @@ ion-icon{
 .taskAdd{
     height: 40px;
     padding: 5px;
+    display: flex;
 }
 
 #newTask{
@@ -44,30 +45,51 @@ ion-icon{
     height: 35px;
 	width:60%;
     box-sizing: border-box;
+    background-color: #ffffffb3;
+    outline: 0;
 }
 
 #addTask{
     border: none;
     border-radius: 5px;
     height: 35px;
-    background-image: linear-gradient(144deg,#2f93baab, #7757c7c2 50%,#ad53edd6);
+    background-image: linear-gradient(144deg,#2f93ba, #7757c7 50%,#ad53ed);
     cursor: pointer;
     color: #ffffff;
+    margin: 0 4px 0 4px;
 }
 
+
 #addTask:hover{
-    background-image: linear-gradient(144deg,#2f93ba, #7757c7 50%,#ad53ed);
     box-shadow: 1px 0px 10px 5px #7757c7c2
     
+}
+
+.deleteTask{
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    cursor: pointer;
+    background-image: linear-gradient(144deg,#ba2f2fab, #c23b3bc2 50%,#e80012d6);
+    color: #000000;
+}
+
+.deleteTask:not(.deactive):hover{
+    box-shadow: 1px 0px 10px 5px #e34444c2
+}
+.deactive{
+    opacity: 0.6;
+    cursor: default;
 }
 
 .task{
     display: flex; 
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px;
     margin: 2px;
     background-color: #f2f2f261;
     text-align: left;
+    font-size: 20px;
 }
 
 .task ion-icon{
@@ -86,4 +108,10 @@ ion-icon{
 
 .done{
     text-decoration: line-through;
+    background-color: rgba(111, 244, 111, 0.397);
+}
+
+.done:hover{
+
+    background-color: rgba(41, 255, 41, 0.507);
 }
