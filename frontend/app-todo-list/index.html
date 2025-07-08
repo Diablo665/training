@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список задач</title>
+    <link rel = "stylesheet" href = "styles.css">
+    <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
+</head>
+<body>
+
+    <h1> &#9997; Task Mate</h1>
+    <div class = container> 
+        <div class = taskPanel> 
+            <div class = taskAdd> 
+                <input type = text placeholder = 'Новая задача...' id = newTask> 
+                <button id = addTask> Добавить </button>
+            </div>
+            <div class = taskList> 
+                <div class = "task done"> 
+                    <input checked = true type ="checkbox" id = task1>
+                    <span> Изучить терминал </span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+                <div class = "task done"> 
+                    <input checked = true type ="checkbox" id = task2>
+                    <span> Изучить работу с GitHub </span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+                <div class = "task done"> 
+                    <input checked = true type ="checkbox" id = task3>
+                    <span> Повторить HTML и CSS  </span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+                <div class = "task done"> 
+                    <input checked = true type ="checkbox" id = task4>
+                    <span>  Сделать макет сайта </span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+                <div class = "task done"> 
+                    <input checked = true type ="checkbox" id = task5>
+                    <span> Накинуть стилей чтобы красиво было) </span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+                <div class = task> 
+                    <input type ="checkbox" id = task6>
+                    <span> Добавить интерактив с помощью JS</span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+                <div class = task> 
+                    <input type ="checkbox" id = task7>
+                    <span> Выпить кофе и гордиться и проделанной работой  </span>
+                    <ion-icon name="trash"></ion-icon>
+                </div> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
