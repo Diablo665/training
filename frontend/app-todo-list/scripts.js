@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
     UpdateAll()
-    /* Добавление нового таска */
 
 });
 
