@@ -14,45 +14,11 @@
         <div class = taskPanel> 
             <div class = taskAdd> 
                 <input type = text placeholder = 'Новая задача...' id = newTask> 
-                <button id = addTask> Добавить </button>
-                <button class = "deleteTask deactive"> Удалить выделенные </button>
+                <button id = addTask onclick="addTask()"> Добавить </button>
+                <button class = "deleteTask deactive" onclick="deleteAllChecked()"> Удалить выделенные </button>
             </div>
             <div class = taskList> 
-                <div class = "task"> 
-                    <input name = 'Check' type ="checkbox">
-                    <span> Изучить терминал </span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
-                <div class = "task"> 
-                    <input name = 'Check' type ="checkbox">
-                    <span> Изучить работу с GitHub </span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
-                <div class = "task"> 
-                    <input name = 'Check' type ="checkbox">
-                    <span> Повторить HTML и CSS  </span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
-                <div class = "task"> 
-                    <input name = 'Check' type ="checkbox">
-                    <span>  Сделать макет сайта </span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
-                <div class = "task"> 
-                    <input name = 'Check'  type ="checkbox">
-                    <span> Накинуть стилей чтобы красиво было) </span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
-                <div class = task> 
-                    <input name = 'Check' type ="checkbox">
-                    <span> Добавить интерактив с помощью JS</span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
-                <div class = task> 
-                    <input name = 'Check' type ="checkbox">
-                    <span> Выпить кофе и гордиться и проделанной работой  </span>
-                    <ion-icon name="trash" class = trash></ion-icon>
-                </div> 
+                
             </div>
         </div>
     </div>
