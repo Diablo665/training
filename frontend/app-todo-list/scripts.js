@@ -52,9 +52,18 @@ function deleteTask(elem){
     let tasks = getTasks();
     tasks = tasks.filter(task => Number(task.id) !== id)
     localStorage.setItem('tasks', JSON.stringify(tasks))
-    document.getElementById(id).remove();
-    renderTask()
+    deleteAnimation(document.getElementById(id));
 
+}
+
+function deleteAnimation(element){
+    element.classList.add('fade-out');
+    
+    // Удаляем элемент после завершения анимации
+    setTimeout(() => {
+        element.remove();
+        renderTask();
+    }, 250);
 }
 
 /*--------------- Удалить все таски которые отмечены решенными ------------------ */
@@ -64,10 +73,9 @@ function deleteAllChecked(){
     let tasks = getTasks();
     for (let element of allCheckeElement) {
         tasks = tasks.filter(task => Number(task.id) !== Number(element.parentNode.id))
-        document.getElementById(element.parentNode.id).remove();
+        deleteAnimation(document.getElementById(element.parentNode.id));
     }
     localStorage.setItem('tasks', JSON.stringify(tasks))
-    renderTask()
 }
 
 
