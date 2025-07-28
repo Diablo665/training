@@ -4,7 +4,7 @@ body{
     background: linear-gradient(90deg,rgba(47, 147, 186, 1) 0%, rgba(119, 87, 199, 1) 50%, rgba(173, 83, 237, 1) 100%);
 }
 
-h1{
+h1, h2, h3{
     color: #fff;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
@@ -136,3 +136,78 @@ ion-icon{
         transform: scale(0.8);
     }
 }
+
+.editConteiner{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    z-index:10;
+    background-color: #6c6c6cb8;
+    text-align: center;
+}
+
+.editPanel{
+    display: inline-block;
+    border: 1px solid #636262;
+    border-radius: 15px;
+    background-color: #ffffff80;
+    margin-top: 20vh;
+    padding: 10px;
+}
+textarea{
+    max-width: 45vw;
+    outline: none;
+    border-radius: 5px;
+    margin: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    background-color: #ffffffba;
+}
+
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  border: 2px solid #cec6c6;
+  background: #cfcfcf;
+  padding: 5px;
+  transition: 0.4s;
+}
+
+select:hover,
+select:focus {
+  background: #e6e6e6;
+}
+
+::picker(select) {
+  border: none;
+}
+
+option {
+  border: 2px solid #ddd;
+  background: #dfdfdf;
+  padding: 10px;
+  transition: 0.4s;
+}
+
+option:hover,
+option:focus {
+  background: #a0ddbc;
+}
+
+
+.editPanel .buttons button{
+    padding: 5px;
+    margin: 10px; 
+    font-size:18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#cancellEdit:hover{background-color: rgba(255, 0, 0, 0.418); transition: 0.7s;}
+
+#saveEdit:hover{background-color: rgba(30, 255, 0, 0.418); transition: 0.7s;}
