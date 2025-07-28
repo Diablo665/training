@@ -26,7 +26,7 @@
     <div class = editConteiner style="display:none"> 
         <h2> Редактор задач </h2>
         <div class = "editPanel"> 
-            <textarea></textarea>
+            <textarea id="editForm"></textarea>
             <br />
             <span style="font-size: 18px;"> Статус задачи после редактирования: </span>
             <select>
@@ -35,8 +35,8 @@
             </select>
             <br />
             <div class = buttons>
-                <button id="cancellEdit">Отмена</button>
-                <button id="saveEdit">Сохранить</button>
+                <button id="cancellEdit" onclick="closeTaskEdit()">Отмена</button>
+                <button id="saveEdit" onclick="editTask()">Сохранить</button>
             </div>
 
         </div>

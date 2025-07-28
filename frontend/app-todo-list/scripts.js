@@ -1,16 +1,26 @@
 /*--------------- Выполняем рендер когда страница загрузится ------------------ */
+var textarea = document.querySelector('textarea');
+let editID;
+
 document.addEventListener("DOMContentLoaded", function() {
     renderTask()
     /*--------------- Добавление возможности отправки формы по кнопке Enter ------------------ */
-let enterForm = document.getElementById("newTask");
-enterForm.addEventListener("keypress", function(elem) {
-     if (elem.keyCode == 13){
-        addTask()
-     }
-})
+
+    addKeyListen("newTask", addTask) // Форма добавления задачи
+    addKeyListen("editForm", editTask) // Форма редактирования задачи
 
 });
 
+
+/* Функция для добавления отправки форм по кнопке Enter. В качестве парамента получает IDэлемента и название функции которую нужно будет выполнить */
+function addKeyListen(elemID, functionName){
+    elem = document.getElementById(elemID);
+    elem.addEventListener("keypress", function(elem) {
+    if (elem.keyCode == 13){
+        functionName()
+    }
+    })
+}
 
 /*--------------- Рендер тасков при загрузке страницы, а также удалении/добавлении таска ------------------ */
 function renderTask(){
@@ -26,7 +36,7 @@ function renderTask(){
                     <input name = 'Check' type ="checkbox" ${task.completed ? "checked=checked" : ""} onclick = "taskDone(this)">
                     <span> ${task.text} </span>
                     <span class = taskButtons>
-                        <ion-icon name="create" class = edit onclick="editTask(this)"></ion-icon>
+                        <ion-icon name="create" class = edit onclick="openTaskEdit(this)"></ion-icon>
                         <ion-icon name="trash" class = trash onclick="deleteTask(this)"></ion-icon>
                     </span>
                 </div> 
@@ -128,10 +138,42 @@ function taskDone(elem){
 
 /*--------------- Редактирование тасков ------------------ */
 
-function editTask(elem){ 
-
+function editTask(){ 
+    
+    if(textarea.value.trim().length > 0 && confirm("Сохранить изменения?")){
+        let tasks = getTasks();
+        const index = tasks.findIndex(task => task.id === editID);
+        
+    
+        if (index !== -1) {
+            tasks[index].text = textarea.value;
+        
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            closeTaskEdit();
+            renderTask();
+        }
+    }else{
+        console.log('no save')
+    }
 }
 
+/*--------------- Открыть блок редактирования ------------------ */
+function openTaskEdit(elem){
+    let conteiner = document.getElementsByClassName('editConteiner')[0];
+
+    conteiner.style.display = 'block';
+    textarea.focus();
+    textarea.value = elem.parentNode.previousSibling.previousSibling.textContent;
+    editID = Number(elem.parentNode.parentNode.id);
+    autoResize()
+    
+}
+
+/*--------------- Закрыть блок редактирования ------------------ */
+function closeTaskEdit(){
+    let conteiner = document.getElementsByClassName('editConteiner')[0];
+    conteiner.style.display = 'none';
+}
 
 /*--------------- Активация/деактивация кнопки удаления нескольких тасков ------------------ */
 function deleteAllButtonStatus(){
@@ -142,4 +184,16 @@ function deleteAllButtonStatus(){
     }else{
         deleteAllChecked.classList.add('deactive');
     }
+}
+
+/*--------------- Ресайз блока редактирования ------------------ */
+function autoResize() {
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+try{
+    textarea.addEventListener('input', autoResize);
+}catch{
+    textarea.attachEvent('oninput', autoResize);
 }
