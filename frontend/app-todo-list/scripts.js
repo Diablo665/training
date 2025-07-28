@@ -25,7 +25,10 @@ function renderTask(){
                 <div class = 'task ${task.completed  ? "done" : ""}', id="${task.id}"> 
                     <input name = 'Check' type ="checkbox" ${task.completed ? "checked=checked" : ""} onclick = "taskDone(this)">
                     <span> ${task.text} </span>
-                    <ion-icon name="trash" class = trash onclick="deleteTask(this)"></ion-icon>
+                    <span class = taskButtons>
+                        <ion-icon name="create" class = edit onclick="editTask(this)"></ion-icon>
+                        <ion-icon name="trash" class = trash onclick="deleteTask(this)"></ion-icon>
+                    </span>
                 </div> 
                 `
             )
@@ -48,7 +51,7 @@ function getTasks(){
 
 /*--------------- Удалить 1 таск по кнопке корзины в элементе ------------------ */
 function deleteTask(elem){
-    let id = Number(elem.parentNode.id);
+    let id = Number(elem.parentNode.parentNode.id);
     let tasks = getTasks();
     tasks = tasks.filter(task => Number(task.id) !== id)
     localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -70,14 +73,15 @@ function deleteAnimation(element){
 
 function deleteAllChecked(){
     let allCheckeElement = document.querySelectorAll('input[name="Check"]:checked');
-    let tasks = getTasks();
-    for (let element of allCheckeElement) {
-        tasks = tasks.filter(task => Number(task.id) !== Number(element.parentNode.id))
-        deleteAnimation(document.getElementById(element.parentNode.id));
+    if(allCheckeElement.length > 0 && confirm("Вы  точно хотите удалить все выделенные задачи? После удаления восстановить их уже не получится")){
+        let tasks = getTasks();
+        for (let element of allCheckeElement) {
+            tasks = tasks.filter(task => Number(task.id) !== Number(element.parentNode.id))
+            deleteAnimation(document.getElementById(element.parentNode.id));
+        }
+        localStorage.setItem('tasks', JSON.stringify(tasks))
     }
-    localStorage.setItem('tasks', JSON.stringify(tasks))
 }
-
 
 /*--------------- Получить последний ID элемента + 1 ------------------ */
 function getLastId(){
@@ -122,6 +126,12 @@ function taskDone(elem){
       
 }
 
+/*--------------- Редактирование тасков ------------------ */
+
+function editTask(elem){ 
+
+}
+
 
 /*--------------- Активация/деактивация кнопки удаления нескольких тасков ------------------ */
 function deleteAllButtonStatus(){
@@ -133,4 +143,3 @@ function deleteAllButtonStatus(){
         deleteAllChecked.classList.add('deactive');
     }
 }
-

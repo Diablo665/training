@@ -36,7 +36,8 @@ ion-icon{
 .taskAdd{
     height: 40px;
     padding: 5px;
-    display: flex;
+    display:flex;
+    justify-content:center;
 }
 
 #newTask{
@@ -92,8 +93,7 @@ ion-icon{
     font-size: 20px;
 }
 
-.task ion-icon{
-    padding: 2px;
+.task .taskButtons{
     margin-left: auto;
 }
 
@@ -101,10 +101,17 @@ ion-icon{
     transform: scale(1.03)
 }
 
-.task ion-icon:hover{
+.taskButtons .trash:hover{
     color: rgba(255, 0, 0, 0.572); 
-    transform: scale(1.2)
+    transform: scale(1.2);
+    cursor: pointer;
 }
+
+.taskButtons .edit:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
 
 .done{
     text-decoration: line-through;
