@@ -23,6 +23,25 @@
         </div>
     </div>
 
+    <div class = editConteiner style="display:none"> 
+        <h2> Редактор задач </h2>
+        <div class = "editPanel"> 
+            <textarea></textarea>
+            <br />
+            <span style="font-size: 18px;"> Статус задачи после редактирования: </span>
+            <select>
+                <option> <ion-icon name="checkbox-outline" id="editTaskDone" style="color: green"></ion-icon> Решено</option>
+                <option> <ion-icon name="close-circle-outline" id="editTaskNoDone" style="color: red"></ion-icon> Не решено </option>
+            </select>
+            <br />
+            <div class = buttons>
+                <button id="cancellEdit">Отмена</button>
+                <button id="saveEdit">Сохранить</button>
+            </div>
+
+        </div>
+    </div>
+
     <script src = "scripts.js"></script>
 </body>
 </html>
