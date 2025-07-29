@@ -25,9 +25,9 @@ function addKeyListen(elemID, functionName){
 /*--------------- Рендер тасков при загрузке страницы, а также удалении/добавлении таска ------------------ */
 function renderTask(){
     let taskList = getTasks();
-    if(taskList.length > 0){
+    taskPlace = document.querySelector('.taskList');
 
-        taskPlace = document.querySelector('.taskList');
+    if(taskList.length > 0){
         taskPlace.innerHTML = "";
         taskList.forEach(task => {
             taskPlace.insertAdjacentHTML('beforeend', 
@@ -45,7 +45,7 @@ function renderTask(){
         })
         
     }else{
-        // Место для будущей заглушки если созданных тасков ещё нет
+        taskPlace.innerHTML = "<h3> Новых задач пока нет </h3><img src='img/non-task.png' alt='Задачи отсутсвуют' width='300px' height='300px'>"
     }
     deleteAllButtonStatus()
 }
