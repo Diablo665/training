@@ -1,23 +1,33 @@
 /*--------------- Выполняем рендер когда страница загрузится ------------------ */
+var textarea = document.querySelector('textarea');
+let editID;
+
 document.addEventListener("DOMContentLoaded", function() {
     renderTask()
     /*--------------- Добавление возможности отправки формы по кнопке Enter ------------------ */
-let enterForm = document.getElementById("newTask");
-enterForm.addEventListener("keypress", function(elem) {
-     if (elem.keyCode == 13){
-        addTask()
-     }
-})
+
+    addKeyListen("newTask", addTask) // Форма добавления задачи
+    addKeyListen("editForm", editTask) // Форма редактирования задачи
 
 });
 
 
+/* Функция для добавления отправки форм по кнопке Enter. В качестве парамента получает IDэлемента и название функции которую нужно будет выполнить */
+function addKeyListen(elemID, functionName){
+    elem = document.getElementById(elemID);
+    elem.addEventListener("keypress", function(elem) {
+    if (elem.keyCode == 13){
+        functionName()
+    }
+    })
+}
+
 /*--------------- Рендер тасков при загрузке страницы, а также удалении/добавлении таска ------------------ */
 function renderTask(){
     let taskList = getTasks();
-    if(taskList.length > 0){
+    taskPlace = document.querySelector('.taskList');
 
-        taskPlace = document.querySelector('.taskList');
+    if(taskList.length > 0){
         taskPlace.innerHTML = "";
         taskList.forEach(task => {
             taskPlace.insertAdjacentHTML('beforeend', 
@@ -25,14 +35,17 @@ function renderTask(){
                 <div class = 'task ${task.completed  ? "done" : ""}', id="${task.id}"> 
                     <input name = 'Check' type ="checkbox" ${task.completed ? "checked=checked" : ""} onclick = "taskDone(this)">
                     <span> ${task.text} </span>
-                    <ion-icon name="trash" class = trash onclick="deleteTask(this)"></ion-icon>
+                    <span class = taskButtons>
+                        <ion-icon name="create" class = edit onclick="openTaskEdit(this)"></ion-icon>
+                        <ion-icon name="trash" class = trash onclick="deleteTask(this)"></ion-icon>
+                    </span>
                 </div> 
                 `
             )
         })
         
     }else{
-        // Место для будущей заглушки если созданных тасков ещё нет
+        taskPlace.innerHTML = "<h3> Новых задач пока нет </h3><img src='img/non-task.png' alt='Задачи отсутсвуют' width='300px' height='300px'>"
     }
     deleteAllButtonStatus()
 }
@@ -48,7 +61,7 @@ function getTasks(){
 
 /*--------------- Удалить 1 таск по кнопке корзины в элементе ------------------ */
 function deleteTask(elem){
-    let id = Number(elem.parentNode.id);
+    let id = Number(elem.parentNode.parentNode.id);
     let tasks = getTasks();
     tasks = tasks.filter(task => Number(task.id) !== id)
     localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -70,14 +83,15 @@ function deleteAnimation(element){
 
 function deleteAllChecked(){
     let allCheckeElement = document.querySelectorAll('input[name="Check"]:checked');
-    let tasks = getTasks();
-    for (let element of allCheckeElement) {
-        tasks = tasks.filter(task => Number(task.id) !== Number(element.parentNode.id))
-        deleteAnimation(document.getElementById(element.parentNode.id));
+    if(allCheckeElement.length > 0 && confirm("Вы  точно хотите удалить все выделенные задачи? После удаления восстановить их уже не получится")){
+        let tasks = getTasks();
+        for (let element of allCheckeElement) {
+            tasks = tasks.filter(task => Number(task.id) !== Number(element.parentNode.id))
+            deleteAnimation(document.getElementById(element.parentNode.id));
+        }
+        localStorage.setItem('tasks', JSON.stringify(tasks))
     }
-    localStorage.setItem('tasks', JSON.stringify(tasks))
 }
-
 
 /*--------------- Получить последний ID элемента + 1 ------------------ */
 function getLastId(){
@@ -122,6 +136,44 @@ function taskDone(elem){
       
 }
 
+/*--------------- Редактирование тасков ------------------ */
+
+function editTask(){ 
+    
+    if(textarea.value.trim().length > 0 && confirm("Сохранить изменения?")){
+        let tasks = getTasks();
+        const index = tasks.findIndex(task => task.id === editID);
+        
+    
+        if (index !== -1) {
+            tasks[index].text = textarea.value;
+        
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            closeTaskEdit();
+            renderTask();
+        }
+    }else{
+        console.log('no save')
+    }
+}
+
+/*--------------- Открыть блок редактирования ------------------ */
+function openTaskEdit(elem){
+    let conteiner = document.getElementsByClassName('editConteiner')[0];
+
+    conteiner.style.display = 'block';
+    textarea.focus();
+    textarea.value = elem.parentNode.previousSibling.previousSibling.textContent;
+    editID = Number(elem.parentNode.parentNode.id);
+    autoResize()
+    
+}
+
+/*--------------- Закрыть блок редактирования ------------------ */
+function closeTaskEdit(){
+    let conteiner = document.getElementsByClassName('editConteiner')[0];
+    conteiner.style.display = 'none';
+}
 
 /*--------------- Активация/деактивация кнопки удаления нескольких тасков ------------------ */
 function deleteAllButtonStatus(){
@@ -134,3 +186,14 @@ function deleteAllButtonStatus(){
     }
 }
 
+/*--------------- Ресайз блока редактирования ------------------ */
+function autoResize() {
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+try{
+    textarea.addEventListener('input', autoResize);
+}catch{
+    textarea.attachEvent('oninput', autoResize);
+}
