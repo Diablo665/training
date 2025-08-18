@@ -1,21 +1,20 @@
-var textarea = document.querySelector('textarea');
-let editConteiner = document.getElementsByClassName('editConteiner')[0];
+const testApiURL = new URL("https://jsonplaceholder.typicode.com/todos/") // ссылка на тестовый API
+const textarea = document.querySelector('textarea'); // 
+const editConteiner = document.getElementsByClassName('editConteiner')[0];
 let editID;
 
 document.addEventListener("DOMContentLoaded", function() {
-    renderTask()
-
-/*--------------- Добавление возможности отправки формы по кнопке Enter ------------------ */
-
-    addKeyListen("newTask", addTask) // Форма добавления задачи
-    addKeyListen("editForm", editTask) // Форма редактирования задачи
+    loader(1);
+    renderTask();
+    addKeyListen("newTask", addTask); 
+    addKeyListen("editForm", editTask); 
 
 });
 
 
 /* Функция для добавления отправки форм по кнопке Enter. В качестве парамента получает IDэлемента и название функции которую нужно будет выполнить */
 function addKeyListen(elemID, functionName){
-    elem = document.getElementById(elemID);
+    let elem = document.getElementById(elemID);
 
     elem.addEventListener("keypress", function(elem) {
     if (elem.keyCode == 13){
@@ -25,10 +24,10 @@ function addKeyListen(elemID, functionName){
 }
 
 /*--------------- Рендер тасков при загрузке страницы, а также удалении/добавлении таска ------------------ */
-function renderTask(){
-    let taskList = getTasks();
+async function renderTask(){
+    let taskList = await getTasks();
     taskPlace = document.querySelector('.taskList');
-
+    
     if(taskList.length > 0){
         taskPlace.innerHTML = "";
 
@@ -36,8 +35,8 @@ function renderTask(){
             taskPlace.insertAdjacentHTML('beforeend', 
                 `
                 <div class = 'task ${task.completed  ? "done" : ""}', id="${task.id}"> 
-                    <input name = 'Check' type ="checkbox" ${task.completed ? "checked=checked" : ""} onclick = "taskDone(this)">
-                    <span data-textid="${task.id}"> ${task.text} </span>
+                    <input data-inputid="${task.id}" name = 'Check' type ="checkbox" ${task.completed ? "checked=checked" : ""} onclick = "taskDone(${task.id})">
+                    <span data-textid="${task.id}"> ${task.title} </span>
                     <span class = taskButtons>
                         <ion-icon name="create" class = edit onclick="openTaskEdit(${task.id})"></ion-icon>
                         <ion-icon name="trash" class = trash onclick="deleteTask(${task.id})"></ion-icon>
@@ -46,49 +45,79 @@ function renderTask(){
                 `
             )
         })
-        
+
+        loader(0)
     }else{
         taskPlace.innerHTML = "<h3> Новых задач пока нет </h3><img src='img/non-task.png' alt='Задачи отсутсвуют' width='300px' height='300px'>"
     }
-    deleteAllButtonStatus()
 }
 
 /*--------------- Получаем список тасков с localStorage ------------------ */
-function getTasks(){
-    const taskList = localStorage.getItem('tasks');
+async function getTasks(){
+    try{
+        const response = await fetch(testApiURL);
 
-    if(taskList) {
-        return JSON.parse(taskList)
+        if(response.ok){
+            const json = await response.json();
+            return json
+        }else{
+            throw new Error(`При загрузке задач произошла ошмбка. 
+                Попробуйте перезагрузить страницу или немного подождать, мы уже пытаемся получить данные с сервера`)
+        }
+
+    }catch(error){
+        showNotification({
+            type: 'error',
+            message: 'Что-то пошло не так',
+            details: error.message
+        });
+        setTimeout(() => {getTasks(1)}, 3000)
     }
-
-    return [];
 }
 
 /*--------------- Удалить 1 таск по кнопке корзины в элементе ------------------ */
-function deleteTask(id){
-
-    let tasks = getTasks();
+async function deleteTask(id){
 
     try{
-        tasks = tasks.filter(task => task.id !== id)
-        localStorage.setItem('tasks', JSON.stringify(tasks))
+        const response = await fetch(testApiURL + id, {
+            method: "DELETE"
+        })
 
-        deleteAnimation(document.getElementById(id));
+        if (!response.ok) {
+            throw new Error(`Ошибка при удалении: ${response.statusText}`);
+        }
 
-    }catch(error){ 
-        alert("Ошибка удаления")
-        console.error(error)
+        const taskElement = document.getElementById(id);
+
+        if (!taskElement) {
+            throw new Error('Элемент не найден');
+        }
+
+        deleteAnimation(taskElement);
+
+    }catch(error){
+        showNotification({
+            type: 'error',
+            message: 'При удалении возникла ошибка. Повторите попытку позже',
+            details: error.message
+        });
     }
-
 }
+
 
 function deleteAnimation(element){
     element.classList.add('fade-out');
     
     // Удаляем элемент после завершения анимации
     setTimeout(() => {
-        element.remove();
-        renderTask();
+        element.remove(); 
+
+        showNotification({
+            type: 'success',
+            message: 'Задача удалена',
+            details: ""
+        });
+
     }, 250);
 }
 
@@ -96,18 +125,12 @@ function deleteAnimation(element){
 
 function deleteAllChecked(){
 
-    let allCheckeElement = document.querySelectorAll('input[name="Check"]:checked');
+    showNotification({
+        type: 'info',
+        message: 'Функция в разработке',
+        details: ""
+    });
 
-    if(allCheckeElement.length > 0 && confirm("Вы  точно хотите удалить все выделенные задачи? После удаления восстановить их уже не получится")){
-        let tasks = getTasks();
-
-        for (let element of allCheckeElement) {
-            tasks = tasks.filter(task => Number(task.id) !== Number(element.parentNode.id))
-            deleteAnimation(document.getElementById(element.parentNode.id));
-        }
-
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-    }
 }
 
 /*--------------- Получить последний ID элемента + 1 ------------------ */
@@ -125,59 +148,171 @@ function getLastId(){
 
 
 /*--------------- Добавление нового таска ------------------ */
-function addTask(){
+async function addTask(){
+
     let taskText = document.getElementById('newTask');
-
+    let id = getLastId();
     if (taskText.value.trim().length > 0){
-        const newTask = {id: getLastId(), text: taskText.value, completed: false}
-        let tasks = getTasks();
 
-        tasks.push(newTask);
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-        renderTask();
-        taskText.value = '';
+        try{
+            const newTask = {userId: 1, id: id, title: taskText.value, completed: false}
+            const response = await fetch(testApiURL, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(newTask),
+            })
+
+            if(response.ok){
+
+                showNotification({
+                    type: 'success',
+                    message: 'Задача добавлене',
+                    details: `Текст задачи: ${taskText.value}`
+                });
+
+                taskText.value = '';
+            }else {
+                throw new Error("Ошибка добавления задачи попробуйте повторить попытку позже")
+            }
+        }catch(error){
+            showNotification({
+                type: 'error',
+                message: 'Что-то пошло нет так...',
+                details: error.message
+            });
         }
+
+
+    }else{
+        showNotification({
+            type: 'warning',
+            message: 'Проверьте корректность данных',
+            details: "Задача не может быть пустой или состоять только из пробелов"
+        });
+    }
 }
 
 /*--------------- Отметка тасков решенными/нерешенными ------------------ */
-function taskDone(elem){
-    let id = Number(elem.parentNode.id);
-    let tasks = getTasks();
-    const index = tasks.findIndex(task => task.id === id);
-    
-    if (index !== -1) {
-        tasks[index].completed = tasks[index].completed ? false : true;
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+async function taskDone(id){
+    try{
+        const task = await getTaskJson(id);
+        const updatedTask = document.getElementById(`${id}`);
+        const newJson = {
+            userId: task.userId, 
+            id: task.id, 
+            title: task.title, 
+            completed: task.completed ? false : true
+        }
 
-        renderTask()
-    }else{
-        alert('Ошибка удаления')
+        const toggleClass = () => 
+                updatedTask.classList.toggle('done');
+
+        toggleClass();
+
+        const response = await fetch(testApiURL + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(newJson),
+        
+        })
+
+        if (!response.ok) {
+
+            toggleClass();
+            throw new Error('Ошибка при обновлении задачи');
+
+        }
+    }catch(error){
+        console.error('Произошла ошибка:', error.message);
+
+        showNotification({
+            type: 'error',
+            message: 'Что-то пошло не так',
+            details: error.message
+        });
+
     }
-      
+
 }
 
+async function getTaskJson(id) {
+
+    try {
+        const response = await fetch(testApiURL + id);
+        
+        if (!response.ok) {
+            throw new Error(`Ошибка запроса: ${response.statusText}`);
+        }
+
+        const json = await response.json();
+        return json;
+
+    } catch (error) {
+        console.error('Произошла ошибка:', error.message);
+    }
+}
 /*--------------- Редактирование тасков ------------------ */
 
-function editTask(){ 
+async function editTask(){ 
     
     if(textarea.value.trim().length > 0 && confirm("Сохранить изменения?")){
+        try{
 
-        let tasks = getTasks();
-        const index = tasks.findIndex(task => task.id === editID);
-        const status = document.querySelector('select');
-    
-        if (index !== -1) {
-
-            tasks[index].text = textarea.value;
-            tasks[index].completed = status.selectedIndex ? false : true;
+            const editTask = await getTaskJson(editID);
+            const status = document.querySelector('select');
+            const newTaskJson =  {
+                userId: editTask.userId, 
+                id: editTask.id, 
+                title: textarea.value, 
+                completed:  status.selectedIndex ? false : true
+            }
         
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+            const response = await fetch(testApiURL + editID, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(newTaskJson),
 
-            closeTaskEdit();
-            renderTask();
+            })
+
+            if(!response.ok){
+                throw new Error('Задачу не получилось отредактировать. Повторить попытку позже')
+            }else{
+
+                const task = document.getElementById(editID);
+                if(newTaskJson.completed){
+                    task.classList.add('done')
+                    document.querySelector(`[data-textid="${editID}"]`).textContent = newTaskJson.title;
+                    document.querySelector(`[data-inputid="${editID}"]`).checked = true;
+                  }else{  
+                    task.classList.remove('done')
+                    document.querySelector(`[data-inputid="${editID}"]`).checked = false;
+                }
+
+                showNotification({
+                    type: 'success',
+                    message: 'Задача обновлена',
+                    details: ""
+                });
+            }
+        }catch(error){
+            showNotification({
+                type: 'error',
+                message: 'Что-то пошло не так',
+                details: error.message
+            });
         }
     }else{
-        console.log('no save')
+        showNotification({
+            type: 'warning',
+            message: 'Проверьте корректность данных',
+            details: "Задача не может быть пустой или состоять только из пробелов"
+        });
     }
 }
 
@@ -186,8 +321,11 @@ function openTaskEdit(id){
     let taskText = document.querySelector(`[data-textid="${id}"]`).textContent;
 
     editConteiner.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+
     textarea.focus();
     textarea.value = taskText;
+
     editID = Number(id);
 
     autoResize()
@@ -196,20 +334,12 @@ function openTaskEdit(id){
 
 /*--------------- Закрыть блок редактирования ------------------ */
 function closeTaskEdit(){
+
     editConteiner.style.display = 'none';
+    document.body.style.overflow = '';
+
 }
 
-/*--------------- Активация/деактивация кнопки удаления нескольких тасков ------------------ */
-function deleteAllButtonStatus(){
-    let allCheckeElement = document.querySelectorAll('input[name="Check"]:checked');
-    var deleteAllChecked = document.querySelector('.deleteTask');
-
-    if(allCheckeElement.length > 0){
-        deleteAllChecked.classList.remove('deactive');
-    }else{
-        deleteAllChecked.classList.add('deactive');
-    }
-}
 
 /*--------------- Ресайз блока редактирования ------------------ */
 function autoResize() {
@@ -221,4 +351,40 @@ try{
     textarea.addEventListener('input', autoResize);
 }catch{
     textarea.attachEvent('oninput', autoResize);
+}
+
+
+
+function loader(status){
+
+    if(status){
+        let taskPlace = document.querySelector('.taskList');
+        taskPlace.insertAdjacentHTML('beforeend', "<div class='loader'> </div>")
+    }else{
+        document.querySelector('.loader').remove()
+    }
+}
+
+function showNotification({ type, message, details }) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification', type);
+    notification.innerHTML = `
+        <p>${message}</p>
+        <small>${details}</small>
+    `;
+    
+    notification.style.opacity = 0;
+    notification.style.transform = 'translateY(-20px)';
+    
+    document.body.appendChild(notification);
+    
+    requestAnimationFrame(() => {
+        notification.style.opacity = 1;
+        notification.style.transform = 'translateY(0)';
+    });
+
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
