@@ -55,7 +55,7 @@ async function renderTask(){
 /*--------------- Получаем список тасков с localStorage ------------------ */
 async function getTasks(){
     try{
-        const response = await fetch(testApiURL);
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos?_page=0&_limit=12');
 
         if(response.ok){
             const json = await response.json();
