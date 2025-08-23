@@ -1,126 +1,172 @@
-
-/* Обшщие стили страницы */
-body{
-    background: linear-gradient(90deg,rgba(47, 147, 186, 1) 0%, rgba(119, 87, 199, 1) 50%, rgba(173, 83, 237, 1) 100%);
+body {
+    background: linear-gradient(90deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    color: #ecf0f1;
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-h1, h2, h3{
-    color: #fff;
+h1,
+h2,
+h3 {
+    color: #ecf0f1;
     text-align: center;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Roboto", sans-serif;
+    margin: 20px 0;
 }
 
-
-/* Контейнер для списка (используется для выравнивания и чтобы лист подтсраивался под размер содержимого но не больше 50vw*/
-.container{
+.container {
     text-align: center;
-    font-size: 25px; 
-    
+    font-size: 25px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Сам список */ 
-.taskPanel{
+.taskPanel {
     display: inline-block;
-    padding: 5px;
+    padding: 20px;
     max-width: 50vw;
     border-radius: 15px;
-    background-color: #ffffff80;
-    box-shadow: 1px 0px 100px 25px rgb(255 0 254 / 43%);
-    
+    background-color: rgba(33, 33, 33, 0.9);
+    box-shadow: 1px 0px 100px 25px rgba(0, 189, 255, 0.43);
+    margin: 20px auto;
 }
 
-ion-icon{
-    color: #4a4a4ad8
+ion-icon {
+    color: #4a4a4a;
+    font-size: 20px;
+    cursor: pointer;
 }
 
-.taskAdd{
+.taskAdd {
     height: 40px;
     padding: 5px;
-    display:flex;
-    justify-content:center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
-#newTask{
+#newTask {
     border-radius: 5px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     height: 35px;
-	width:60%;
+    width: 60%;
     box-sizing: border-box;
-    background-color: #ffffffb3;
+    background-color: rgba(255, 255, 255, 0.2);
     outline: 0;
+    padding: 0 10px;
+    color: #fff;
 }
 
-#addTask{
+#addTask {
     border: none;
     border-radius: 5px;
     height: 35px;
-    background-image: linear-gradient(144deg,#2f93ba, #7757c7 50%,#ad53ed);
+    background-image: linear-gradient(144deg, #2889e7, #00bfff 50%, #1e90ff);
     cursor: pointer;
     color: #ffffff;
     margin: 0 4px 0 4px;
 }
 
-
-#addTask:hover{
-    box-shadow: 1px 0px 10px 5px #7757c7c2
-    
+#addTask:hover {
+    box-shadow: 1px 0px 10px 5px rgba(0, 189, 255, 0.7);
 }
 
-.deleteTask{
+/* Дополнительно улучшим контраст */
+#addTask:active {
+    background-image: linear-gradient(144deg, #0077cc, #0099ff 50%, #0077cc);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.deleteTask {
     border: none;
     border-radius: 5px;
     height: 35px;
     cursor: pointer;
-    background-image: linear-gradient(144deg,#ba2f2fab, #c23b3bc2 50%,#e80012d6);
-    color: #000000;
+    background-image: linear-gradient(144deg, #ba2f2f, #c23b3b 50%, #e80012);
+    color: #fff;
+    padding: 0 15px;
 }
 
-.deleteTask:not(.deactive):hover{
-    box-shadow: 1px 0px 10px 5px #e34444c2
+.deleteTask:not(.deactive):hover {
+    box-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
 }
-.deactive{
+
+.deactive {
     opacity: 0.6;
     cursor: default;
 }
 
-.task{
-    display: flex; 
+.task {
+    display: flex;
     border-radius: 5px;
-    padding: 10px;
-    margin: 2px;
-    background-color: #f2f2f261;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: rgba(50, 50, 50, 0.8); /* Темный фон для задач */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     text-align: left;
     font-size: 20px;
+    color: #fff;
+    transition: all 0.3s ease;
 }
 
-.task .taskButtons{
+.task:hover {
+    transform: scale(1.03);
+    background-color: rgba(60, 60, 60, 0.9); /* При наведении темнее */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.task .taskButtons {
+    display: flex;
+    gap: 10px;
     margin-left: auto;
+    align-items: center;
 }
 
-.task:hover{
-    transform: scale(1.03)
-}
-
-.taskButtons .trash:hover{
-    color: rgba(255, 0, 0, 0.572); 
-    transform: scale(1.2);
+.taskButtons ion-icon {
+    color: #b3b3b3;
+    font-size: 20px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.taskButtons .edit:hover{
+.taskButtons ion-icon:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.taskButtons .trash {
+    color: #ff4d4d;
+}
+
+.taskButtons .edit {
+    color: #3498db;
+}
+
+.taskButtons .trash:hover {
+    color: #ff2424;
     transform: scale(1.2);
-    cursor: pointer;
 }
 
+.taskButtons .edit:hover {
+    color: #2980b9;
+    transform: scale(1.2);
+}
 
-.done{
+.done {
     text-decoration: line-through;
-    background-color: rgba(111, 244, 111, 0.397);
+    background-color: rgba(111, 244, 111, 0.3);
+    color: #888;
 }
 
-.done:hover{
-
-    background-color: rgba(41, 255, 41, 0.507);
+.done:hover {
+    background-color: rgba(41, 255, 41, 0.4);
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(41, 255, 41, 0.3);
 }
 
 .fade-out {
@@ -130,6 +176,7 @@ ion-icon{
 @keyframes fadeOut {
     from {
         opacity: 1;
+        transform: scale(1);
     }
     to {
         opacity: 0;
@@ -137,107 +184,125 @@ ion-icon{
     }
 }
 
-.editConteiner{
+.editConteiner {
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0px;
-    z-index:10;
-    background-color: #6c6c6cb8;
+    z-index: 10;
+    background-color: rgba(108, 108, 108, 0.8); /* Темный полупрозрачный фон */
     text-align: center;
 }
 
-.editPanel{
+.editPanel {
     display: inline-block;
-    border: 1px solid #636262;
+    border: 1px solid rgba(99, 98, 98, 0.8);
     border-radius: 15px;
-    background-color: #ffffff80;
+    background-color: rgba(50, 50, 50, 0.9); /* Темный фон панели */
     margin-top: 20vh;
-    padding: 10px;
+    padding: 20px;
+    color: #fff; /* Белый текст для контраста */
 }
-textarea{
+
+textarea {
     width: 90%;
     outline: none;
     border-radius: 5px;
-    margin: 5px;
-    font-family: 'Courier New', Courier, monospace;
+    margin: 10px;
+    font-family: "Courier New", Courier, monospace;
     font-size: 18px;
-    background-color: #ffffffba;
+    background-color: rgba(70, 70, 70, 0.8); /* Темный фон для текстовой области */
+    color: #fff; /* Белый текст */
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 select,
 ::picker(select) {
-  appearance: base-select;
+    appearance: base-select;
+}
+
+select,
+::picker(select) {
+    appearance: base-select;
 }
 
 select {
-  border: 2px solid #cec6c6;
-  background: #cfcfcf;
-  padding: 5px;
-  transition: 0.4s;
-}
-
-select:hover,
-select:focus {
-  background: #e6e6e6;
-}
-
-::picker(select) {
-  border: none;
-}
-
-option {
-  border: 2px solid #ddd;
-  background: #dfdfdf;
-  padding: 10px;
-  transition: 0.4s;
-}
-
-option:hover,
-option:focus {
-  background: #a0ddbc;
-}
-
-
-.editPanel .buttons button{
+    border: 2px solid #cec6c6;
+    background: #343434;
     padding: 5px;
-    margin: 10px; 
-    font-size:18px;
+    transition: 0.4s;
+}
+
+select:focus,
+select:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Стили для option */
+option {
+    background-color: rgba(70, 70, 70, 0.9);
+    color: #fff;
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 18px;
+}
+
+option:hover {
+    background-color: rgba(100, 100, 100, 0.9);
+    color: #fff;
+}
+
+.editPanel .buttons button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 18px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    color: #fff;
 }
 
-#cancellEdit:hover{background-color: rgba(255, 0, 0, 0.418); transition: 0.7s;}
+#cancellEdit {
+    background-color: rgba(255, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+}
 
-#saveEdit:hover{background-color: rgba(30, 255, 0, 0.418); transition: 0.7s;}
+#cancellEdit:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+#saveEdit {
+    background-color: rgba(30, 255, 0, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+#saveEdit:hover {
+    background-color: rgba(30, 255, 0, 0.7);
+}
 
 @media (max-width: 768px) {
+    .taskPanel {
+        max-width: 100%;
+    }
 
-.taskPanel{
-    max-width: 100%;
-    
-}
+    .taskAdd {
+        height: auto;
+        flex-direction: column;
+    }
 
-.taskAdd{
-    height:auto;
-    flex-direction:column;
-}
+    #newTask {
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #ffffffb3;
+        outline: 0;
+    }
 
-#newTask{
-	width:100%;
-    box-sizing: border-box;
-    background-color: #ffffffb3;
-    outline: 0;
-}
-
-#addTask{
-    width:100%;
-    height: 35px;
-    margin: 5px 0;
-    
-}
-
+    #addTask {
+        width: 100%;
+        height: 35px;
+        margin: 5px 0;
+    }
 }
 
 .loader {
@@ -249,25 +314,24 @@ option:focus {
     border-left: 4px solid #ff1818;
     box-sizing: border-box;
     animation: loadAnimation 2s cubic-bezier(0.42, 0, 0.45, 0.98) infinite;
-  }
-  
-  @keyframes loadAnimation {
+}
+
+@keyframes loadAnimation {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  } 
+}
 
-
- .notification {
+.notification {
     position: fixed;
     top: 20px;
     right: 20px;
     padding: 15px 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     transition: all 0.3s ease;
 }
