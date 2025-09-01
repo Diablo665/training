@@ -4,18 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список задач</title>
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel = "stylesheet" href = "css/styles.css">
+    <link rel = "stylesheet" href = "css/categoryStyles.css">
     <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
 </head>
 <body>
 
-    <h1> &#9997; Task Mate</h1>
-    <div class = container> 
+    <h1 role="banner"> &#9997; Task Mate</h1>
+    <div class = container role="main " > 
+
+        <div class="control-panel">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Поиск задач...">
+                <button role="button" id="searchButton">Поиск</button>
+            </div>
+
+             <div class="toggle-filters">
+                <button role="button" id="filtersToggle">
+                    <span class="filter-line">Открыть меню</span>
+                </button>
+            </div>
+
+            <div class="filters-menu">
+                <div class="filters">
+                    <p class="filter-description">Статус задач:</p>
+                    <div class="categories">
+                        <select id="categoryFilter">
+                            <option value="all">Все</option>
+                            <option value="work">Решенные</option>
+                            <option value="home">Нерешённые</option>                        
+                        </select>
+                    </div>
+
+                    <p class="filter-description">Сортировка: </p>
+                    <div class="categories">
+                        <select id="categoryFilter">
+                            <option value="all">По умолчанию</option>
+                            <option value="work">Сначала решённые</option>
+                            <option value="home">Сначала не решенные</option>            
+                        </select>
+                    </div>
+                </div>            
+    
+                <div class="bulk-actions">
+                    <button role="button" id="selectAll" data-action="selectAll">Выделить все</button>
+                    <button role="button" id="markCompleted" data-action="doneAll">Выполнить выделенные задачи</button>
+                    <button role="button" id="deleteSelected" data-action="deleteAll">Удалить выбранные</button>
+                </div>
+            </div>
+        </div>
+
         <div class = taskPanel> 
             <div class = taskAdd> 
                 <input type = text placeholder = 'Новая задача...' id = newTask> 
-                <button id = addTask onclick="addTask()"> Добавить </button>
-                <button class = "deleteTask deactive" onclick="deleteAllChecked()"> Удалить выделенные </button>
+                <select id="taskCategory">
+                    <option value="work">категория 1</option>
+                    <option value="home">категория 2</option>
+                    <option value="study">категория 2</option>
+                </select>
+                <button role="button" id = addTask data-action='add'> Добавить </button>
+
             </div>
             <div class = taskList> 
                 
@@ -35,13 +83,13 @@
             </select>
             <br />
             <div class = buttons>
-                <button id="cancellEdit" onclick="closeTaskEdit()">Отмена</button>
-                <button id="saveEdit" onclick="editTask()">Сохранить</button>
+                <button role="button" id="cancellEdit" data-action="closeEdit">Отмена</button>
+                <button role="button" id="saveEdit" data-action="edit">Сохранить</button>
             </div>
 
         </div>
     </div>
 
-    <script src = "scripts.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
