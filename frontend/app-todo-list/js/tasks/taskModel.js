@@ -2,7 +2,9 @@ export const testApiURL = new URL("https://jsonplaceholder.typicode.com/todos/")
 export const textarea = document.querySelector('textarea'); // 
 export const editConteiner = document.getElementsByClassName('editConteiner')[0];
 export const appState = {
-    editID: null
+    editID: null,
+    theme: 'dark',
+    filters: 'all'
    };
 
 import {showNotification, loader} from '../utils/helper.js'
