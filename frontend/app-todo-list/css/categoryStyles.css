@@ -1,3 +1,20 @@
+:root{
+    --bg-panels: rgba(33, 33, 33, 0.9);
+    --text: #ecf0f1;
+    --input-border:rgba(255, 255, 255, 0.3);
+    --input-bg: #b3b3b300;
+}
+
+[data-theme='light'] {
+     --bg-panels: #ffffff;                
+     --text: #2b3a4a;                     
+     --input-border: #adb5bd;     
+     --input-bg: #ffffff;  
+    
+}
+
+
+
 .categories {
     margin-bottom: 20px;
     text-align: center;
@@ -10,10 +27,10 @@
     position: relative;
     display: inline-block;
     padding: 12px 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--input-border);
     border-radius: 8px;
-    background-color: transparent;
-    color: #fff;
+    background-color: var(--input-bg);
+    color: var(--text);
     font-size: 16px;
     cursor: pointer;
     appearance: none;
@@ -26,20 +43,19 @@
     width: 150px;
     padding: 2px 20px; 
 }
-  
-/* Основная панель управления */
+
 .control-panel {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 30px;
-    background-color: rgba(33, 33, 33, 0.9);
+    background-color: var(--bg-panels);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Поисковая строка */
+
 .search-container {
     display: flex;
     align-items: center;
@@ -49,10 +65,10 @@
 .search-container input {
     width:100%;
     padding: 12px 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--input-border);
     border-radius: 8px;
-    background-color: #ffffff00;
-    color: #fff;
+    background-color: var(--input-bg);
+    color: var(--text);
     font-size: 16px;
     
 }
@@ -68,7 +84,7 @@
     cursor: pointer;
 }
 
-/* Секция фильтров */
+
 .filters {
     display: flex;
     gap: 20px;
@@ -76,7 +92,7 @@
 }
 
 .filter-description {
- color: rgba(255, 255, 255, 0.8);
+ color: var(--text);
  font-size: 16px;
  margin: 10px 0;
  line-height: 1.5;
@@ -98,7 +114,7 @@
 
 #selectAll {
     color: #fff;
-    background-color: rgba(0, 189, 255, 0.7); /* Более светлый оттенок серого */
+    background-color: rgba(0, 189, 255, 0.7); 
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -113,7 +129,6 @@
     color: #fff;
 }
 
-/* Эффекты при наведении */
 .search-container button:hover {
  background-color: rgba(0, 189, 255, 0.9);
 }
@@ -123,7 +138,6 @@
 
    }
 
-/* Эффекты для фильтров */
 #categoryFilter:hover {
  border-color: rgba(0, 189, 255, 0.5);
 }
@@ -133,7 +147,6 @@
  box-shadow: 0 0 0 2px rgba(0, 189, 255, 0.3);
 }
 
-/* Эффекты для кнопок массовых действий */
 .bulk-actions button:hover {
  opacity: 0.9;
 }
@@ -182,7 +195,7 @@
 
 #filtersToggle {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text);
 }
 
 #filtersToggle:hover {
@@ -191,7 +204,7 @@
 
 .filters-menu {
  padding: 20px;
- background-color: rgba(33, 33, 33, 0.9);
+ background-color: var(--bg-panels);
  border-radius: 8px;
  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
  opacity: 0;
@@ -208,7 +221,6 @@
  transform: translateY(0);
 }
 
-/* Анимация закрытия */
 .filters-menu.hidden {
  opacity: 0;
  transform: translateY(-20px);

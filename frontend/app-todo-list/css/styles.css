@@ -1,6 +1,35 @@
+:root{
+    --bg-main: linear-gradient(90deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    --bg-panels: rgba(33, 33, 33, 0.9);
+    --text: #ecf0f1;
+    --task-bg: rgba(50, 50, 50, 0.8);
+    --task-hover-bg: rgba(60, 60, 60, 0.9)
+    --input-border:rgba(255, 255, 255, 0.3);
+    --input-bg: #b3b3b300;
+}
+
+[data-theme='light'] {
+    --bg-main: #f8f9fa;                   
+     --bg-panels: #ffffff;                  
+     --text: #2b3a4a;                     
+     --task-bg: #f0f2f5;                 
+     --task-hover-bg: #e4e7eb;           
+     --input-border: #adb5bd;        
+     --input-bg: #ffffff;  
+    
+}
+
+:root,
+body,
+.task {
+transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+
+
 body {
-    background: linear-gradient(90deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
-    color: #ecf0f1;
+    background: var(--bg-main);
+    color: var(--text);
     font-family: "Roboto", sans-serif;
     margin: 0;
     padding: 0;
@@ -14,11 +43,72 @@ input:focus {outline: 2px solid #007acc;}
 h1,
 h2,
 h3 {
-    color: #ecf0f1;
+    color: var(--text);
     text-align: center;
     font-family: "Roboto", sans-serif;
     margin: 20px 0;
 }
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: var(--bg-panels);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+   
+header h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+   
+
+header h1 ion-icon {
+    margin-right: 8px;
+}
+   
+
+#themeButton {
+    background: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text);
+   }
+   
+#themeButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+   }
+
+#themeButton:hover ion-icon {
+    transform: rotate(15deg);
+}
+   
+#themeButton:active {
+    transform: scale(0.98);
+}
+   
+#themeButton ion-icon {
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+}
+
 
 .container {
     text-align: center;
@@ -33,13 +123,12 @@ h3 {
     padding: 20px;
     max-width: 50vw;
     border-radius: 15px;
-    background-color: rgba(33, 33, 33, 0.9);
+    background-color: var(--bg-panels);
     box-shadow: 1px 0px 100px 25px rgba(0, 189, 255, 0.43);
     margin: 20px auto;
 }
 
 ion-icon {
-    color: #4a4a4a;
     font-size: 20px;
     cursor: pointer;
 }
@@ -54,14 +143,13 @@ ion-icon {
 
 #newTask {
     border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
     height: 40px;
     width: 60%;
     box-sizing: border-box;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--input-border);
     border-radius: 8px;
-    background-color: #ffffff00;
-    color: #fff;
+    background-color: var(--input-bg);
+    color: var(--text);
     padding: 12px 20px;
 }
 
@@ -81,7 +169,6 @@ ion-icon {
 }
 
 
-/* Дополнительно улучшим контраст */
 #addTask:active {
     background-image: linear-gradient(144deg, #0077cc, #0099ff 50%, #0077cc);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
@@ -111,11 +198,11 @@ ion-icon {
     border-radius: 5px;
     padding: 15px;
     margin: 10px 0;
-    background-color: rgba(50, 50, 50, 0.8); /* Темный фон для задач */
+    background-color: var(--task-bg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     text-align: left;
     font-size: 20px;
-    color: #fff;
+    color: var(--text);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -124,7 +211,7 @@ ion-icon {
 
 .task:hover {
     transform: scale(1.03);
-    background-color: rgba(60, 60, 60, 0.9); /* При наведении темнее */
+    background-color: var(--task-hover-bg); 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     overflow:visible;
 }
@@ -169,7 +256,7 @@ ion-icon {
 .done {
     text-decoration: line-through;
     background-color: rgba(111, 244, 111, 0.3);
-    color: #888;
+    color: var(text);
 }
 
 .done:hover {
@@ -199,7 +286,7 @@ ion-icon {
     position: absolute;
     top: 0px;
     z-index: 10;
-    background-color: rgba(108, 108, 108, 0.8); /* Темный полупрозрачный фон */
+    background-color: rgba(108, 108, 108, 0.8); 
     text-align: center;
 }
 
@@ -207,10 +294,10 @@ ion-icon {
     display: inline-block;
     border: 1px solid rgba(99, 98, 98, 0.8);
     border-radius: 15px;
-    background-color: rgba(50, 50, 50, 0.9); /* Темный фон панели */
+    background-color: var(--bg-panels); 
     margin-top: 20vh;
     padding: 20px;
-    color: #fff; /* Белый текст для контраста */
+    color: var(--text); 
 }
 
 textarea {
@@ -220,9 +307,9 @@ textarea {
     margin: 10px;
     font-family: "Courier New", Courier, monospace;
     font-size: 18px;
-    background-color: rgba(70, 70, 70, 0.8); /* Темный фон для текстовой области */
-    color: #fff; /* Белый текст */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: var(--input-bg); 
+    color: var(text); 
+    border: 1px solid var(--input-border);
 }
 
 select,
@@ -237,7 +324,7 @@ select,
 
 select {
     border: 2px solid #cec6c6;
-    background: #343434;
+    background: var(--input-bg);
     padding: 5px;
     transition: 0.4s;
 }
@@ -248,7 +335,7 @@ select:hover {
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
-/* Стили для option */
+
 option {
     background-color: rgba(70, 70, 70, 0.9);
     color: #fff;
