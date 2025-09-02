@@ -2,7 +2,7 @@ import {editTask, addTask, taskDone, deleteTask} from '../tasks/taskList.js'
 import { openTaskEdit, closeTaskEdit } from '../utils/helper.js';
 import {textarea} from '../tasks/taskModel.js';
 import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js'
-import { search } from '../filters/filters.js';
+import { search, sort, getFiltered } from '../filters/filters.js';
 import { updateTheme } from '../utils/themes.js'
 
 function addKeyListen(elemID, functionName){
@@ -110,13 +110,42 @@ export function mainKeyHandler(){
 
         const isInteractive = ['A','BUTTON','INPUT','TEXTAREA'].includes(e.target.tagName)
         
-        if (isInteractive) return; // у кнопок и ссылок своё поведение
+        if (isInteractive) return; 
 
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            element.click(); // принудительно вызываем click
+            element.click(); 
          }
         });
 
 }
 
+export function selectListener(){
+
+    const selecters = document.querySelectorAll('#categoryFilter')
+
+    selecters.forEach(elem => {
+        elem.addEventListener('change', (option) => {
+            const type = option.target.value;
+
+            if(type === 'all' || type === 'completed' || type === 'notCompleted'){
+                getFiltered(type)
+            }else if(type === 'default' || type === 'completed-start' || type === 'completed-end'){
+                sort(type)
+            }
+        })
+    })
+}
+
+export function searchListener(){
+    let searchTimeout;
+    document.querySelector('#searchInput').addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+       
+        clearTimeout(searchTimeout);
+       
+        searchTimeout = setTimeout(() => {
+            search(query);
+        }, 500); 
+       });
+}
