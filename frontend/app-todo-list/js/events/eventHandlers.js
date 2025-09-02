@@ -2,6 +2,7 @@ import {editTask, addTask, taskDone, deleteTask} from '../tasks/taskList.js'
 import { openTaskEdit, closeTaskEdit } from '../utils/helper.js';
 import {textarea} from '../tasks/taskModel.js';
 import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js'
+import { search } from '../filters/filters.js';
 
 function addKeyListen(elemID, functionName){
     let elem = document.getElementById(elemID);
@@ -42,58 +43,72 @@ export function autoResize() {
 export function keyListener(){
     addKeyListen("newTask", addTask); 
     addKeyListen("editForm", editTask); 
+    //addKeyListen('searchInput', search)
 }
 
 export function mainKeyHandler(){
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-action]');
-        if (!btn) { 
-            return;
-        }
+    'keypress click'.split(" ").forEach(function(type){
+        document.addEventListener(type, (e) => {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) { 
+                return;
+            }
 
-        const action = btn.dataset.action;
-        const id = Number(btn.dataset.id);
+            const action = btn.dataset.action;
+            const id = Number(btn.dataset.id);
 
-        switch (action) {
+            if (type === 'keypress' && action === 'done') {
+                const checkbox = e.target.tagName === 'INPUT' ? e.target : e.target.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked; 
+                }
+            }
 
-        case 'add':
-            addTask();
-            break;
+            switch (action) {
 
-        case 'done':
-            taskDone(id);
-            break;
+            case 'add':
+                addTask();
+                break;
+
+            case 'done':
+                taskDone(id);
+                break;
         
-        case 'delete':
-            deleteTask(id);
-            break
+            case 'delete':
+                deleteTask(id);
+                break
 
-        case 'openEdit':
-            openTaskEdit(id);
-            break
-        case 'closeEdit':
-            closeTaskEdit();
-            break
+            case 'openEdit':
+                openTaskEdit(id);
+                break
+            case 'closeEdit':
+                closeTaskEdit();
+                break
 
-        case 'edit':
-            editTask();
-            break
+            case 'edit':
+                editTask();
+                break
 
-        case 'selectAll':
-            chooseAll();
-            break
+            case 'selectAll':
+                chooseAll();
+                break
 
-        case 'doneAll':
-            doneAll();
-            break
+            case 'doneAll':
+                doneAll();
+                break
 
-        case 'deleteAll':
-            deleteAll();
-            break
-        }
+            case 'deleteAll':
+                deleteAll();
+                break
+            case 'search':
+                search()
+                break
+            }
 
-        
-
-
+    
         });
+
+    })
+ 
 }
+
