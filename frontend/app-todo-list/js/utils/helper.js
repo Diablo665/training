@@ -67,8 +67,6 @@ export async function getTaskJson(id) {
         const response = await fetch(testApiURL + id);
         
         if (!response.ok) {
-            console.log(response.status)
-            console.log(url)
             throw new Error(`Ошибка запроса: ${response.statusText}`);
         }
 

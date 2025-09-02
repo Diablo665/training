@@ -17,7 +17,6 @@ export function doneAll(){
         const taskId = checkbox.dataset.id;
         const taskElement = document.querySelector(`.task[data-id="${taskId}"]`);
    
-    // Если задача ещё не "done" — обновляем
     if (!taskElement.classList.contains('done')) {
         taskElement.classList.add('done');
     }

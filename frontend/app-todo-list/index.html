@@ -34,17 +34,17 @@
                     <div class="categories">
                         <select id="categoryFilter">
                             <option value="all">Все</option>
-                            <option value="work">Решенные</option>
-                            <option value="home">Нерешённые</option>                        
+                            <option value="completed">Решенные</option>
+                            <option value="notCompleted">Нерешённые</option>                        
                         </select>
                     </div>
 
                     <p class="filter-description">Сортировка: </p>
                     <div class="categories">
-                        <select id="categoryFilter">
-                            <option value="all">По умолчанию</option>
-                            <option value="work">Сначала решённые</option>
-                            <option value="home">Сначала не решенные</option>            
+                        <select id="categoryFilter" class="sort">
+                            <option value="default">По умолчанию</option>
+                            <option value="completed-start">Сначала решённые</option>
+                            <option value="completed-end">Сначала не решенные</option>            
                         </select>
                     </div>
                 </div>            
@@ -60,11 +60,7 @@
         <div class = taskPanel> 
             <div class = taskAdd> 
                 <input type = text placeholder = 'Новая задача...' id = newTask> 
-                <select id="taskCategory">
-                    <option value="work">категория 1</option>
-                    <option value="home">категория 2</option>
-                    <option value="study">категория 2</option>
-                </select>
+
                 <button role="button" id = addTask data-action='add'> Добавить </button>
 
             </div>
@@ -94,5 +90,4 @@
     </div>
 
     <script type="module" src="js/main.js"></script>
-</>
 </html>
