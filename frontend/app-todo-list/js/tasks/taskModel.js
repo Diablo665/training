@@ -1,23 +1,27 @@
 export const testApiURL = new URL("https://jsonplaceholder.typicode.com/todos/")
 export const textarea = document.querySelector('textarea'); // 
 export const editConteiner = document.getElementsByClassName('editConteiner')[0];
+export const taskPlace = document.querySelector('.taskList');
 export const appState = {
     editID: null,
     theme: 'dark',
-    filters: 'all'
+    filters: 'all',
+    sort: 'default',
+    sortActive: true,
+    tasks: []
    };
+
 
 import {showNotification, loader} from '../utils/helper.js'
 
 
 export async function renderTask(){
-    let taskList = await getTasks();
-    let taskPlace = document.querySelector('.taskList');
+    await getTasks();
     
-    if(taskList.length > 0){
+    if(appState.tasks.length > 0){
         taskPlace.innerHTML = "";
         
-        taskList.forEach(task => {
+        appState.tasks.forEach(task => {
             taskPlace.insertAdjacentHTML('beforeend', 
                 `
                 <div data-id="${task.id}" class = 'task ${task.completed  ? "done" : ""}', id="${task.id}" > 
@@ -45,7 +49,8 @@ export async function getTasks(){
 
         if(response.ok){
             const json = await response.json();
-            return json
+            appState.tasks = json
+            
         }else{
             throw new Error(`При загрузке задач произошла ошмбка. 
                 Попробуйте перезагрузить страницу или немного подождать, мы уже пытаемся получить данные с сервера`)
