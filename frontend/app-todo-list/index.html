@@ -6,18 +6,20 @@
     <title>Список задач</title>
     <link rel = "stylesheet" href = "css/styles.css">
     <link rel = "stylesheet" href = "css/categoryStyles.css">
-    <link rel = 'icon' href="img/icon.ico">
     <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
 </head>
 <body>
-
-    <h1 role="banner"> &#9997; Task Mate</h1>
+    <header>
+        <h1 role="banner"> &#9997; Task Mates</h1>
+        <button id="themeButton" data-action='setTheme' aria-label="Переключить тему"> <ion-icon id='iconType' name="sunny"> </ion-icon> </button>
+    </header>
+    
     <div class = container role="main " > 
 
         <div class="control-panel">
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Поиск задач...">
-                <button data-action="search" role="button" id="searchButton">Поиск</button>
+                <button role="button" id="searchButton">Поиск</button>
             </div>
 
              <div class="toggle-filters">
@@ -92,5 +94,5 @@
     </div>
 
     <script type="module" src="js/main.js"></script>
-</body>
+</>
 </html>
