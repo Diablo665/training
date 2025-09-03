@@ -79,7 +79,7 @@ function updateSortStatus(){
     sortElem.value = 'default'
 }
 
-function renderFilteredTask(tasksArray){
+export function renderFilteredTask(tasksArray){
     taskPlace.innerHTML = "";
     tasksArray.forEach(task => {
         taskPlace.insertAdjacentHTML('beforeend', 
