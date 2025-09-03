@@ -1,5 +1,6 @@
 import {getTaskJson, showNotification, getLastId, deleteAnimation} from '../utils/helper.js'
 import { testApiURL, textarea, appState } from './taskModel.js';
+import { renderFilteredTask } from '../filters/filters.js';
 
 export async function editTask(){ 
     
@@ -61,6 +62,7 @@ export async function editTask(){
 }
 
 
+
 export async function addTask(){
 
     let taskText = document.getElementById('newTask');
@@ -84,7 +86,9 @@ export async function addTask(){
                     message: 'Задача добавлене',
                     details: `Текст задачи: ${taskText.value}`
                 });
-
+                appState.tasks.push(newTask)
+                renderFilteredTask(appState.tasks)
+                console.log(appState.tasks)
                 taskText.value = '';
             }else {
                 throw new Error("Ошибка добавления задачи попробуйте повторить попытку позже")
@@ -123,7 +127,7 @@ export async function deleteTask(id){
         if (!taskElement) {
             throw new Error('Элемент не найден');
         }
-
+        appState.tasks = appState.tasks.filter(item => item.id != id)
         deleteAnimation(taskElement);
 
     }catch(error){
@@ -165,8 +169,12 @@ export async function taskDone(id){
 
             toggleClass();
             throw new Error('Ошибка при обновлении задачи');
-
         }
+
+        let index = appState.tasks.findIndex(item => item.id == id)
+        appState.tasks[index].completed = appState.tasks[index].completed ? false : true
+        console.log(appState.tasks)
+
     }catch(error){
         console.error('Произошла ошибка:', error.message);
 
