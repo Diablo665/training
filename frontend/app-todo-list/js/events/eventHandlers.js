@@ -1,151 +1,141 @@
-import {editTask, addTask, taskDone, deleteTask} from '../tasks/taskList.js'
+import { editTask, addTask, taskDone, deleteTask } from '../tasks/taskList.js';
 import { openTaskEdit, closeTaskEdit } from '../utils/helper.js';
-import {textarea} from '../tasks/taskModel.js';
-import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js'
+import { textarea } from '../tasks/taskModel.js';
+import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js';
 import { search, sort, getFiltered } from '../filters/filters.js';
-import { updateTheme } from '../utils/themes.js'
+import { updateTheme } from '../utils/themes.js';
 
-function addKeyListen(elemID, functionName){
-    let elem = document.getElementById(elemID);
+function addKeyListen(elemID, callback) {
+    const elem = document.getElementById(elemID);
+    if (!elem) return;
 
-    elem.addEventListener("keypress", function(elem) {
-    if (elem.keyCode == 13){
-        functionName()
-    }
-    })
+    elem.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            callback();
+        }
+    });
 }
 
-export function menuButtonListener(){
+export function menuButtonListener() {
     const filtersToggle = document.querySelector('#filtersToggle');
     const filtersMenu = document.querySelector('.filters-menu');
-    const filterLine = document.querySelector('.filter-line')
+    const filterLine = document.querySelector('.filter-line');
+
+    if (!filtersToggle || !filtersMenu || !filterLine) return; 
 
     filtersToggle.addEventListener('click', () => {
-        if (filtersMenu.style.display === 'none') {
+        if (filtersMenu.style.display === 'none' || getComputedStyle(filtersMenu).display === 'none') {
             filtersMenu.style.display = 'block';
             filtersMenu.classList.add('active');
-            filterLine.innerHTML = 'Скрыть меню'
+            filterLine.textContent = 'Скрыть меню';
         } else {
             filtersMenu.classList.remove('active');
             setTimeout(() => {
                 filtersMenu.style.display = 'none';
-                filterLine.innerHTML = 'Открыть меню'
+                filterLine.textContent = 'Открыть меню';
             }, 300);
         }
-    })
-
+    });
 }
 
 export function autoResize() {
+    if (!textarea) return;
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
 }
 
-export function keyListener(){
-    addKeyListen("newTask", addTask); 
-    addKeyListen("editForm", editTask); 
+export function keyListener() {
+    addKeyListen('newTask', addTask);
+    addKeyListen('editForm', editTask);
 }
 
-export function mainKeyHandler(){
-
+export function mainKeyHandler() {
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-action]');
-        if (!btn) { 
-            return;
-        }
+        if (!btn) return;
 
         const action = btn.dataset.action;
         const id = Number(btn.dataset.id);
 
         switch (action) {
-
-        case 'add':
-            addTask();
-            break;
-
-        case 'done':
-            taskDone(id);
-            break;
-        
-        case 'delete':
-            deleteTask(id);
-            break
-
-        case 'openEdit':
-            openTaskEdit(id);
-            break
-        case 'closeEdit':
-            closeTaskEdit();
-            break
-
-        case 'edit':
-            editTask();
-            break
-
-        case 'selectAll':
-            chooseAll();
-            break
-
-        case 'doneAll':
-            doneAll();
-            break
-
-        case 'deleteAll':
-            deleteAll();
-            break
-        case 'search':
-            search()
-            break
-        case 'setTheme':
-            updateTheme();
-            break
+            case 'add':
+                addTask();
+                break;
+            case 'done':
+                taskDone(id);
+                break;
+            case 'delete':
+                deleteTask(id);
+                break;
+            case 'openEdit':
+                openTaskEdit(id);
+                break;
+            case 'closeEdit':
+                closeTaskEdit();
+                break;
+            case 'edit':
+                editTask();
+                break;
+            case 'selectAll':
+                chooseAll();
+                break;
+            case 'doneAll':
+                doneAll();
+                break;
+            case 'deleteAll':
+                deleteAll();
+                break;
+            case 'search':
+                search();
+                break;
+            case 'setTheme':
+                updateTheme();
+                break;
+            default:
+                break;
         }
-
-    
     });
 
     document.addEventListener('keydown', (e) => {
         const element = e.target.closest('[data-action]');
         if (!element) return;
 
-        const isInteractive = ['A','BUTTON','INPUT','TEXTAREA'].includes(e.target.tagName)
-        
-        if (isInteractive) return; 
+        const tagName = e.target.tagName;
+        const isInteractive = ['A', 'BUTTON', 'INPUT', 'TEXTAREA'].includes(tagName);
+        if (isInteractive) return;
 
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            element.click(); 
-         }
-        });
-
+            element.click();
+        }
+    });
 }
 
-export function selectListener(){
-
-    const selecters = document.querySelectorAll('#categoryFilter')
-
-    selecters.forEach(elem => {
-        elem.addEventListener('change', (option) => {
-            const type = option.target.value;
-
-            if(type === 'all' || type === 'completed' || type === 'notCompleted'){
-                getFiltered(type)
-            }else if(type === 'default' || type === 'completed-start' || type === 'completed-end'){
-                sort(type)
+export function selectListener() {
+    const selectors = document.querySelectorAll('#categoryFilter');
+    selectors.forEach((elem) => {
+        elem.addEventListener('change', (event) => {
+            const type = event.target.value;
+            if (['all', 'completed', 'notCompleted'].includes(type)) {
+                getFiltered(type);
+            } else if (['default', 'completed-start', 'completed-end'].includes(type)) {
+                sort(type);
             }
-        })
-    })
+        });
+    });
 }
 
-export function searchListener(){
+export function searchListener() {
     let searchTimeout;
-    document.querySelector('#searchInput').addEventListener('input', (e) => {
+    const searchInput = document.querySelector('#searchInput');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
         const query = e.target.value.trim().toLowerCase();
-       
         clearTimeout(searchTimeout);
-       
         searchTimeout = setTimeout(() => {
             search(query);
-        }, 500); 
-       });
+        }, 500);
+    });
 }

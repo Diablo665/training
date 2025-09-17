@@ -2,7 +2,6 @@ import {keyListener, menuButtonListener, autoResize, mainKeyHandler, selectListe
 import {loader} from './utils/helper.js'
 import {textarea, renderTask} from './tasks/taskModel.js';
 import { setThemeInLoad } from './utils/themes.js';
-import { search } from './filters/filters.js';
 
 document.addEventListener('DOMContentLoaded', function(){
     setThemeInLoad();
