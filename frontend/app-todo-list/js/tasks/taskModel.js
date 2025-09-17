@@ -6,8 +6,6 @@ export const appState = {
     editID: null,
     theme: 'dark',
     filters: 'all',
-    sort: 'default',
-    sortActive: true,
     tasks: []
    };
 
@@ -62,6 +60,6 @@ export async function getTasks(){
             message: 'Что-то пошло не так',
             details: error.message
         });
-        setTimeout(() => {getTasks(1)}, 3000)
+        setTimeout(getTasks, 3000);
     }
 }
