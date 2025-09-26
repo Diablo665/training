@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список задач</title>
-    <link rel = "stylesheet" href = "css/styles.css">
-    <link rel = "stylesheet" href = "css/categoryStyles.css">
+    <link rel = "stylesheet" href = "./css/main.css">
+    <link rel = "stylesheet" href = "./css/categoryStyles.css">
+    <link rel = "icon", href = "img/icon.ico">
     <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
 </head>
 <body>
     <header>
         <h1 role="banner"> &#9997; Task Mates</h1>
-        <button id="themeButton" data-action='setTheme' aria-label="Переключить тему"> <ion-icon id='iconType' name="sunny"> </ion-icon> </button>
+        <div id=right>
+            <a href="./statistics.html" target="_blank">Статистика</a>
+            <button id="themeButton" data-action='setTheme' aria-label="Переключить тему"> <ion-icon id='iconType' name="sunny"> </ion-icon> </button>
+        </div>
     </header>
     
     <div class = container role="main " > 
@@ -19,6 +23,7 @@
         <div class="control-panel">
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Поиск задач...">
+                
                 <button role="button" id="searchButton">Поиск</button>
             </div>
 
@@ -60,9 +65,12 @@
         <div class = taskPanel> 
             <div class = taskAdd> 
                 <input type = text placeholder = 'Новая задача...' id = newTask> 
-
+                <select id="taskCategory">
+                    <option value="low">Низкий</option>
+                    <option value="medium">Средний</option>
+                    <option value="high">Высокий</option>
+                </select>
                 <button role="button" id = addTask data-action='add'> Добавить </button>
-
             </div>
             <div class = taskList> 
                 
@@ -76,11 +84,20 @@
             <textarea id="editForm"></textarea>
             <br />
             <span style="font-size: 18px;"> Статус задачи после редактирования: </span>
-            <select>
+            <select id='editSelect'>
                 <option> <ion-icon name="checkbox-outline" id="editTaskDone" style="color: green"></ion-icon> Решено</option>
                 <option> <ion-icon name="close-circle-outline" id="editTaskNoDone" style="color: red"></ion-icon> Не решено </option>
             </select>
             <br />
+
+            <span style="font-size: 18px;"> Приоритет задачи после редактирования: </span>
+            <select id='editPrioritySelect'>
+                <option value="low"><ion-icon name="information-circle-outline" style="color: green"></ion-icon> Низкий </option>
+                <option value="medium"><ion-icon name="information-circle-outline" style="color: yellow"></ion-icon> Средний </option>
+                <option value="high"><ion-icon name="information-circle-outline" style="color: red"></ion-icon> Высокий </option>
+                
+            </select>
+
             <div class = buttons>
                 <button role="button" id="cancellEdit" data-action="closeEdit">Отмена</button>
                 <button role="button" id="saveEdit" data-action="edit">Сохранить</button>
@@ -89,5 +106,5 @@
         </div>
     </div>
 
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </html>
