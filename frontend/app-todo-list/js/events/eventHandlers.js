@@ -1,9 +1,12 @@
-import { editTask, addTask, taskDone, deleteTask } from '../tasks/taskList.js';
 import { openTaskEdit, closeTaskEdit } from '../utils/helper.js';
-import { textarea } from '../tasks/taskModel.js';
+import { taskManager } from '../main.js';
 import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js';
 import { search, sort, getFiltered } from '../filters/filters.js';
 import { updateTheme } from '../utils/themes.js';
+import { measureFunction } from '../utils/statistics.js';
+
+const filtersMenu = document.querySelector('.filters-menu');
+const filterLine = document.querySelector('.filter-line');
 
 function addKeyListen(elemID, callback) {
     const elem = document.getElementById(elemID);
@@ -19,9 +22,6 @@ function addKeyListen(elemID, callback) {
 
 export function menuButtonListener() {
     const filtersToggle = document.querySelector('#filtersToggle');
-    const filtersMenu = document.querySelector('.filters-menu');
-    const filterLine = document.querySelector('.filter-line');
-
     if (!filtersToggle || !filtersMenu || !filterLine) return; 
 
     filtersToggle.addEventListener('click', () => {
@@ -46,8 +46,8 @@ export function autoResize() {
 }
 
 export function keyListener() {
-    addKeyListen('newTask', addTask);
-    addKeyListen('editForm', editTask);
+    addKeyListen('newTask', taskManager.addTask.bind(taskManager));
+    addKeyListen('editForm', taskManager.editTask.bind(taskManager));
 }
 
 export function mainKeyHandler() {
@@ -60,13 +60,13 @@ export function mainKeyHandler() {
 
         switch (action) {
             case 'add':
-                addTask();
+                measureFunction(taskManager.addTask.bind(taskManager));
                 break;
             case 'done':
-                taskDone(id);
+                measureFunction(taskManager.taskDone.bind(taskManager), id);
                 break;
             case 'delete':
-                deleteTask(id);
+                measureFunction(taskManager.deleteTask.bind(taskManager), id);
                 break;
             case 'openEdit':
                 openTaskEdit(id);
@@ -75,7 +75,7 @@ export function mainKeyHandler() {
                 closeTaskEdit();
                 break;
             case 'edit':
-                editTask();
+                measureFunction(taskManager.editTask.bind(taskManager));
                 break;
             case 'selectAll':
                 chooseAll();
@@ -121,7 +121,7 @@ export function selectListener() {
                 getFiltered(type);
             } else if (['default', 'completed-start', 'completed-end'].includes(type)) {
                 sort(type);
-            }
+            } 
         });
     });
 }

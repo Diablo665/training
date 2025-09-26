@@ -1,7 +1,9 @@
-import { testApiURL, editConteiner, textarea, appState } from '../tasks/taskModel.js';
+import { taskManager, editConteiner} from "../main.js";
+
+const taskPlace = document.querySelector('.taskList');
 
 export function loader(status) {
-    const taskPlace = document.querySelector('.taskList');
+    
     if (status) {
         if (!document.querySelector('.loader')) {
             taskPlace.insertAdjacentHTML('beforeend', "<div class='loader'></div>");
@@ -50,7 +52,7 @@ export function openTaskEdit(id) {
     textarea.value = taskText;
     textarea.focus();
 
-    appState.editID = id;
+    taskManager.setEditID(id);
 
     autoResize();
 }
@@ -58,23 +60,6 @@ export function openTaskEdit(id) {
 export function closeTaskEdit() {
     editConteiner.style.display = 'none';
     document.body.style.overflow = '';
-}
-
-export async function getTaskJson(id) {
-    try {
-        const url = testApiURL + id;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`Произошла ошибка: ${response.status} ${response.statusText}`);
-        }
-
-        const json = await response.json();
-        return json;
-    } catch (error) {
-        console.error('Произошла ошибка:', error.message);
-        return null;
-    }
 }
 
 export function getLastId() {
