@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/statistics.css">
+    <link rel="icon" href="img/iconStat.ico">
+    <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
+    <title>Статистика</title>
+</head>
+<body>
+    <header>
+        <h1 role="banner"> &#9997; Task Mates statistics</h1>
+        <div id="right">
+            <a href="./index.html" target="_blank">На главную</a>
+        </div>
+    </header>
+
+    <div id="infoPanel">
+        <div class="warning-message">
+            <p> Обратите внимание: на данный момент все статистические данные сохраняются в течение одной сессии. После выхода с сайта и повторного посещения, 
+                статистика будет обнулена при совершение любых дейсвий. 
+                
+            </p>
+        </div>
+    </div>
+
+    <div id="statisticsConteiner">
+        <!--<h4> Краткая статистика </h4>-->
+        <div id="mainStatistics">
+            <div class="blockStat">
+                <div class="statHeader"> Добавлено: </div>
+                <span class="green" id="addStat" title="Количество добавленных задач, за последние 24 часа"> 0 </span>
+            </div>
+
+            <div class="blockStat" >
+                <div class="statHeader"> Изменено: </div>
+                <span class="blue" id="editStat" title="Количество отредактированных задач, за последние 24 часа"> 0 </span>
+            </div>
+
+            <div  class="blockStat">
+                <div class="statHeader"> Удалено: </div>
+                <span class="red" id="deleteStat" title="Количество удалённых задач, за последние 24 часа"> 0 </span>
+            </div>
+
+            <div  class="blockStat"> 
+                <div class="statHeader"> Отмечено решённым: </div>
+                <span class="green" id="markDoneStat" title="Количество задач, которые были отмечены решёнными за последние 24 часа"> 0 </span>
+            </div>
+
+            <div class="blockStat"> 
+                <div class="statHeader "> Нерешённые: </div>
+                <span id="UndoneStat" title="Общее количество нерешённых задач"> 0 </span>
+            </div>
+
+            <div class="blockStat"> 
+                <div class="statHeader"> Решённые: </div>
+                <span class="green" id="doneStat" title="Общее количество решённых задач"> 0 </span>
+            </div>
+
+        </div>
+
+        <div id="loadStat">
+            <div class="blockStat"> 
+                <div class="statHeader"> Список задач загрузился за: </div>
+                <span id="ToDoList" title="Скорость последней загрузки задач с сервера и их отображения. (Время отображается с округлением)"> </span>
+            </div>
+        
+            <div class="blockStat"> 
+                <div class="statHeader"> Последнее обновление статистики заняло: </div>
+                <span id="loadStatistics" title = 'Информация о загрузке статистики. (Время отображается с округлением)'> 10 мс </span>
+            </div>
+        </div>
+
+        <!--<h4> Подробная статистика </h4>-->
+        <div id="otherStatistics"> 
+
+        
+            <div> 
+                <h4> Статистика добавленных задач:</h4>
+                <table id="addTaskStat" class="taskStatusTable">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Текст</th>
+                            <th>Статус</th>
+                            <th>Дата добавления</th>
+                            <th>Время добавления</th>
+                            <th>Занятое время</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        
+            <div > 
+                <h4> Статистика отредактированных задач:</h4>
+                <table id="editTaskStat" class="taskStatusTable">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Новый текст</th>
+                            <th>Статус</th>
+                            <th>Дата изменения</th>
+                            <th>Время изменения</th>
+                            <th>Занятое время</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        
+            <div> 
+                <h4> Статистика удалённых задач:</h4>
+                <table id="deleteTaskStat" class="taskStatusTable">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Текст</th>
+                            <th>Статус</th>
+                            <th>Дата удаления</th>
+                            <th>Время удаления</th>
+                            <th>Занятое время</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        
+            <div> 
+                <h4> Статистика решённых задач задач:</h4>
+                <table id='markDoneTaskStat' class="taskStatusTable">
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Текст</th>
+                            <th>Статус</th>
+                            <th>Дата решения</th>
+                            <th>Время решения</th>
+                            <th>Занятое время</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="./js/statistics.js"></script>
+</body>
+</html>

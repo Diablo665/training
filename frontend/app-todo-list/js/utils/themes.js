@@ -1,35 +1,42 @@
-import { appState } from "../tasks/taskModel.js";
+import { taskManager } from "../main.js";
+
 const icon = document.querySelector('#iconType');
+const saved = localStorage.getItem('appTheme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 export function setThemeInLoad() {
-    const saved = localStorage.getItem('appTheme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     if (saved === 'dark' || saved === 'light') {
-        appState.theme = saved;
+        taskManager.setTheme(saved);
     } else {
-        appState.theme = prefersDark ? 'dark' : 'light';
+        const prefers =  prefersDark ? 'dark' : 'light';
+        taskManager.setTheme(prefers)
     }
 
-    document.documentElement.setAttribute('data-theme', appState.theme);
+    document.documentElement.setAttribute('data-theme', taskManager.getTheme());
     updateThemeButton();
 }
 
 export function updateTheme() {
-    if (appState.theme === 'dark') {
-        appState.theme = 'light';
+
+    const theme = taskManager.getTheme();
+
+    if (theme === 'dark') {
+        taskManager.setTheme('light');
+        document.documentElement.setAttribute('data-theme', 'light');
     } else {
-        appState.theme = 'dark';
+        taskManager.setTheme('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    document.documentElement.setAttribute('data-theme', appState.theme);
-    localStorage.setItem('appTheme', appState.theme);
+    localStorage.setItem('appTheme', taskManager.getTheme());
     updateThemeButton();
 }
 
 function updateThemeButton() {
     if (!icon) return;
-    if (appState.theme === 'dark') {
+;
+    if (taskManager.getTheme() === 'dark') {
         icon.setAttribute('name', 'sunny');
     } else {
         icon.setAttribute('name', 'moon');
