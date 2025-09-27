@@ -10,12 +10,12 @@ import '../img/non-task.png';
 
 export const taskManager = new TaskManager();
 export const editConteiner = document.querySelector('.editConteiner');
+export const textarea = document.querySelector('textarea');
 
 document.addEventListener('DOMContentLoaded', async function(){
     setThemeInLoad();
     loader(1);
-    
-    const textarea = document.querySelector('textarea');
+
     textarea.addEventListener('input', autoResize);
 
     await taskManager.init()

@@ -1,5 +1,5 @@
 import { openTaskEdit, closeTaskEdit } from '../utils/helper.js';
-import { taskManager } from '../main.js';
+import { taskManager, textarea } from '../main.js';
 import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js';
 import { search, sort, getFiltered } from '../filters/filters.js';
 import { updateTheme } from '../utils/themes.js';

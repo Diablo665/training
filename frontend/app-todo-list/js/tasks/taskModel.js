@@ -1,7 +1,7 @@
 import { showNotification, getLastId, deleteAnimation } from '../utils/helper.js';
 import { renderFilteredTask } from '../filters/filters.js';
 import { MainStatistics } from '../utils/statistics.js';
-
+import { textarea } from '../main.js';
 export class TaskManager {
     constructor() {
         this.tasks = [];
