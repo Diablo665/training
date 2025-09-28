@@ -1,6 +1,6 @@
 // Элементы верхнего списка
 
-import { updateClass } from "./panelFunc.js";
+import { updateClass } from "./panelFunc";
 
 const addStatusElem = document.querySelector('#addStat');
 const editStatusElem = document.querySelector('#editStat');
@@ -18,7 +18,7 @@ let start;
 export function setMainStatistic(){
     try{
         start = performance.now()
-        const statistics = JSON.parse(localStorage.getItem('MainStatistics'));
+        const statistics = JSON.parse(localStorage.getItem('mainStatistics'));
 
         addStatusElem.textContent = statistics.addTask;
         editStatusElem.textContent = statistics.editTask;

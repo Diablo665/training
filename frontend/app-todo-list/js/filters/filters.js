@@ -1,5 +1,5 @@
-import { taskManager } from "../main.js";
-import { showNotification } from "../utils/helper.js";
+import { taskManager } from "../main";
+import { showNotification } from "../utils/helper";
 
 const sortElem = document.querySelector('.sort');
 
@@ -64,7 +64,9 @@ export function renderFilteredTask(tasksArray) {
         taskPlace.insertAdjacentHTML('beforeend', 
             `
             <div data-id="${task.id}" class="task ${task.completed ? "done" : ""}" id="${task.id}"> 
-                <span class="priority ${task.priority}" title='Изменение приоритета'><ion-icon name="information-circle-outline"></ion-icon></span>
+                <span class="priority ${task.priority}" title='Изменение приоритета'>
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                </span>
                 <input data-inputid="${task.id}" name="Check" type="checkbox" ${task.completed ? "checked" : ""} data-id="${task.id}" data-action="done">
                 <span data-textid="${task.id}">${task.title}</span>
                 <span class="taskButtons">

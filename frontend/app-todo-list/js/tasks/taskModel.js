@@ -1,7 +1,7 @@
-import { showNotification, getLastId, deleteAnimation } from '../utils/helper.js';
-import { renderFilteredTask } from '../filters/filters.js';
-import { MainStatistics } from '../utils/statistics.js';
-import { textarea } from '../main.js';
+import { showNotification, getLastId, deleteAnimation } from '../utils/helper';
+import { renderFilteredTask } from '../filters/filters';
+import { mainStatistics, setMainStatistic } from '../utils/statistics';
+import { textarea } from '../main';
 export class TaskManager {
     constructor() {
         this.tasks = [];
@@ -35,14 +35,16 @@ export class TaskManager {
 
 
     renderTasks() {
-        const start = performance.now();
+
         this.taskPlace.innerHTML = '';
         
         if (this.tasks.length > 0) {
             this.tasks.forEach(task => {
                 this.taskPlace.insertAdjacentHTML('beforeend', `
                     <div data-id="${task.id}" class="task ${task.completed ? 'done' : ''}" id="${task.id}">
-                        <span class="priority ${task.priority}" title="Изменение приоритета"><ion-icon name="information-circle-outline"></ion-icon></span>
+                        <span class="priority ${task.priority}" title="Изменение приоритета">
+                            <ion-icon name="information-circle-outline"></ion-icon>
+                        </span>
                         <input data-inputid="${task.id}" name="Check" type="checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}" data-action="done">
                         <span data-textid="${task.id}">${task.title}</span>
                         <span class="taskButtons">
@@ -52,12 +54,11 @@ export class TaskManager {
                     </div>
                 `);
             });
+
         } else {
             this.taskPlace.innerHTML = `<h3>Новых задач пока нет</h3><img src='img/non-task.png' alt='Задачи отсутствуют' width='300px' height='300px'>`;
         }
-
-        const end = performance.now();
-        this.renderTime = Math.trunc(end - start);
+        
     }
 
     async editTask() {
@@ -94,7 +95,7 @@ export class TaskManager {
                     }
                     renderFilteredTask(this.tasks);
     
-                    MainStatistics.editTask += 1;
+                    mainStatistics.editTask += 1;
     
                     showNotification({
                         type: 'success',
@@ -160,7 +161,7 @@ export class TaskManager {
     
                     this.tasks.push(newTask);
                     renderFilteredTask(this.tasks);
-                    MainStatistics.addTask += 1;
+                    mainStatistics.addTask += 1;
     
                     taskText.value = '';
     
@@ -207,7 +208,7 @@ export class TaskManager {
             }
             
             this.tasks = this.tasks.filter(item => item.id !== id);
-            MainStatistics.deletedTask += 1;
+            mainStatistics.deletedTask += 1;
     
             const taskText = document.querySelector(`[data-textid="${id}"]`).textContent;
             deleteAnimation(taskElement);
@@ -262,7 +263,7 @@ export class TaskManager {
 
             if (index !== -1) {
                 this.tasks[index].completed = newJson.completed;
-                newJson.completed ? MainStatistics.markDoneTask += 1 : MainStatistics.markDoneTask -= 1;
+                newJson.completed ? mainStatistics.markDoneTask += 1 : mainStatistics.markDoneTask -= 1;
             }
        
             return ['done', {
@@ -318,9 +319,14 @@ export class TaskManager {
     }
        
     async init() {
+        const start = performance.now();
 
         await this.getTasks();
         this.renderTasks();
+
+        const end = performance.now();
+        this.renderTime = Math.trunc(end - start);
+        setMainStatistic(1)
     }
 
     setTheme(theme) {

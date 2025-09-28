@@ -1,22 +1,20 @@
-import { setMainStatistic } from "../statPanel/panelModel.js";
-import { loadOtherTasksFromStorage } from "../statPanel/panelFunc.js";
+import { setMainStatistic } from "../statPanel/panelModel";
+import { loadOtherTasksFromStorage } from "../statPanel/panelFunc";
 
-export function storageListener(){
+export const storageListener = () => {
     window.addEventListener('storage', (event) => {
-        
-        if(event.key === 'MainStatistics'){
-            setMainStatistic();
-        }else if(event.key === 'addTaskList'){
-            loadOtherTasksFromStorage('addTaskList');
-        }else if(event.key === 'deletedTaskList'){
-            loadOtherTasksFromStorage('deletedTaskList');
-        }else if(event.key === 'editTaskList'){
-            loadOtherTasksFromStorage('editTaskList');
-        }else if(event.key === 'doneTaskList'){
-            loadOtherTasksFromStorage('doneTaskList');
-        }else{
-            return;
+        switch (event.key) {
+            case 'mainStatistics':
+                setMainStatistic();
+                break;
+            case 'addTaskList':
+            case 'deletedTaskList':
+            case 'editTaskList':
+            case 'doneTaskList':
+                loadOtherTasksFromStorage(event.key);
+                break;
+            default:
+                return;
         }
-        
     });
-}
+};

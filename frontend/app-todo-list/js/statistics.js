@@ -1,6 +1,6 @@
-import { setMainStatistic } from "./statPanel/panelModel.js";
-import { storageListener } from "./events/StatisticsEventsHandler.js";
-import { loadAllTask } from "./statPanel/panelFunc.js";
+import { setMainStatistic } from "./statPanel/panelModel";
+import { storageListener } from "./events/StatisticsEventsHandler";
+import { loadAllTask } from "./statPanel/panelFunc";
 
 import '../css/statistics.css';
 import '../img/iconStat.ico';

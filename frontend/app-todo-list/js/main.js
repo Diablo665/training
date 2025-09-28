@@ -1,7 +1,7 @@
 import {keyListener, menuButtonListener, autoResize, mainKeyHandler, selectListener, searchListener} from './events/eventHandlers.js';
-import {loader} from './utils/helper.js'
-import {TaskManager} from './tasks/taskModel.js';
-import { setThemeInLoad } from './utils/themes.js';
+import {loader} from './utils/helper'
+import {TaskManager} from './tasks/taskModel';
+import { setThemeInLoad } from './utils/themes';
 
 import '../css/main.css';
 import '../css/categoryStyles.css';
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async function(){
 
     textarea.addEventListener('input', autoResize);
 
-    await taskManager.init()
+    await taskManager.init();
 
     menuButtonListener();
     keyListener()

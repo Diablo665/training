@@ -1,6 +1,6 @@
-import { taskManager } from "../main.js";
+import { taskManager } from "../main";
 
-export const MainStatistics = {
+export const mainStatistics = {
     haveTask: 0,
     editTask: 0, 
     deletedTask: 0,
@@ -18,24 +18,24 @@ const doneTaskList = [];
 
 export function setMainStatistic(haveTasks){
 
-    MainStatistics.doneTask = 0;
-    MainStatistics.undoneTask = 0;
+    mainStatistics.doneTask = 0;
+    mainStatistics.undoneTask = 0;
 
     const tasks = taskManager.getTasksList()
 
     if(haveTasks){
         tasks.forEach(task => {
             if(task.completed){
-                MainStatistics.doneTask += 1;
+                mainStatistics.doneTask += 1;
             }else{
-                MainStatistics.undoneTask += 1;
+                mainStatistics.undoneTask += 1;
             }
         })
 
-        MainStatistics.renderTaskTime = taskManager.getRenderTime();
+        mainStatistics.renderTaskTime = taskManager.getRenderTime();
     }
 
-    localStorage.setItem('MainStatistics', JSON.stringify(MainStatistics))
+    localStorage.setItem('mainStatistics', JSON.stringify(mainStatistics))
 }
 
 export function updateStorage(type, data, time){
@@ -61,7 +61,7 @@ export function updateStorage(type, data, time){
             break;
     }
 
-    localStorage.setItem('MainStatistics', JSON.stringify(MainStatistics));
+    localStorage.setItem('mainStatistics', JSON.stringify(mainStatistics));
     
         
 }

@@ -1,11 +1,10 @@
 
-import { addTaskToTable } from "./panelModel.js";
+import { addTaskToTable } from "./panelModel";
 
 const elemTag = {'addTaskList': "#addTaskStat", 'deletedTaskList': "#deleteTaskStat", 'editTaskList': "#editTaskStat", 'doneTaskList': '#markDoneTaskStat'}
 
 export function updateClass(elem, time){
-    elem.classList.value = '';
-    elem.classList.add(time < 3000 ? 'green' : 'red');
+    elem.classList.value = time < 3000 ? 'green' : 'red';
 
     
 }

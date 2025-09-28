@@ -1,4 +1,4 @@
-import { taskManager } from "../main.js";
+import { taskManager } from "../main";
 
 const icon = document.querySelector('#iconType');
 const saved = localStorage.getItem('appTheme');

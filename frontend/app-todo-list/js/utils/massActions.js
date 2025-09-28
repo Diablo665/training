@@ -1,4 +1,4 @@
-import { taskManager } from "../main.js";
+import { taskManager } from "../main";
 
 export function chooseAll() {
     const notChecked = document.querySelectorAll('input[name="Check"]:not(:checked)');

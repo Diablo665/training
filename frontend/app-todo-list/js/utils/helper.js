@@ -1,4 +1,4 @@
-import { taskManager, editConteiner, textarea} from "../main.js";
+import { taskManager, editConteiner, textarea} from "../main";
 
 const taskPlace = document.querySelector('.taskList');
 

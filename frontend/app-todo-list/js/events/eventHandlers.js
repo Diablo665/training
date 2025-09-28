@@ -1,9 +1,9 @@
-import { openTaskEdit, closeTaskEdit } from '../utils/helper.js';
-import { taskManager, textarea } from '../main.js';
-import { chooseAll, doneAll, deleteAll } from '../utils/massActions.js';
-import { search, sort, getFiltered } from '../filters/filters.js';
-import { updateTheme } from '../utils/themes.js';
-import { measureFunction } from '../utils/statistics.js';
+import { openTaskEdit, closeTaskEdit } from '../utils/helper';
+import { taskManager, textarea } from '../main';
+import { chooseAll, doneAll, deleteAll } from '../utils/massActions';
+import { search, sort, getFiltered } from '../filters/filters';
+import { updateTheme } from '../utils/themes';
+import { measureFunction } from '../utils/statistics';
 
 const filtersMenu = document.querySelector('.filters-menu');
 const filterLine = document.querySelector('.filter-line');
