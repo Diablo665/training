@@ -22,10 +22,13 @@ function addKeyListen(elemID, callback) {
 
 export function menuButtonListener() {
     const filtersToggle = document.querySelector('#filtersToggle');
-    if (!filtersToggle || !filtersMenu || !filterLine) return; 
+    if (!filtersToggle || !filtersMenu || !filterLine) return;
 
     filtersToggle.addEventListener('click', () => {
-        if (filtersMenu.style.display === 'none' || getComputedStyle(filtersMenu).display === 'none') {
+        if (
+            filtersMenu.style.display === 'none' ||
+            getComputedStyle(filtersMenu).display === 'none'
+        ) {
             filtersMenu.style.display = 'block';
             filtersMenu.classList.add('active');
             filterLine.textContent = 'Скрыть меню';
@@ -121,7 +124,7 @@ export function selectListener() {
                 getFiltered(type);
             } else if (['default', 'completed-start', 'completed-end'].includes(type)) {
                 sort(type);
-            } 
+            }
         });
     });
 }

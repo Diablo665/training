@@ -1,16 +1,15 @@
-import { taskManager } from "../main";
+import { taskManager } from '../main';
 
 const icon = document.querySelector('#iconType');
 const saved = localStorage.getItem('appTheme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 export function setThemeInLoad() {
-
     if (saved === 'dark' || saved === 'light') {
         taskManager.setTheme(saved);
     } else {
-        const prefers =  prefersDark ? 'dark' : 'light';
-        taskManager.setTheme(prefers)
+        const prefers = prefersDark ? 'dark' : 'light';
+        taskManager.setTheme(prefers);
     }
 
     document.documentElement.setAttribute('data-theme', taskManager.getTheme());
@@ -18,7 +17,6 @@ export function setThemeInLoad() {
 }
 
 export function updateTheme() {
-
     const theme = taskManager.getTheme();
 
     if (theme === 'dark') {
@@ -35,7 +33,6 @@ export function updateTheme() {
 
 function updateThemeButton() {
     if (!icon) return;
-;
     if (taskManager.getTheme() === 'dark') {
         icon.setAttribute('name', 'sunny');
     } else {

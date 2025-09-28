@@ -1,9 +1,9 @@
-import { taskManager } from "../main";
+import { taskManager } from '../main';
 
 export function chooseAll() {
     const notChecked = document.querySelectorAll('input[name="Check"]:not(:checked)');
 
-    notChecked.forEach(input => {
+    notChecked.forEach((input) => {
         input.checked = true;
     });
 }
@@ -11,7 +11,7 @@ export function chooseAll() {
 export function doneAll() {
     const checkedCheckboxes = document.querySelectorAll('input[name="Check"]:checked');
 
-    checkedCheckboxes.forEach(checkbox => {
+    checkedCheckboxes.forEach((checkbox) => {
         const taskId = checkbox.dataset.id;
         const taskElement = document.querySelector(`.task[data-id="${taskId}"]`);
 
@@ -24,7 +24,7 @@ export function doneAll() {
 export function deleteAll() {
     const checkedCheckboxes = document.querySelectorAll('input[name="Check"]:checked');
 
-    checkedCheckboxes.forEach(checkbox => {
+    checkedCheckboxes.forEach((checkbox) => {
         const taskId = checkbox.dataset.id;
         if (taskId) {
             taskManager.deleteTask(taskId);

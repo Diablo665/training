@@ -21,26 +21,28 @@ export class TaskManager {
 
     async getTasks() {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/todos?_page=0&_limit=12');
+            const response = await fetch(
+                'https://jsonplaceholder.typicode.com/todos?_page=0&_limit=12'
+            );
             if (response.ok) {
                 const json = await response.json();
-                this.tasks = json.map(task => ({ ...task, priority: 'low' }));
+                this.tasks = json.map((task) => ({ ...task, priority: 'low' }));
             } else {
                 throw new Error('Ошибка при загрузке задач');
             }
         } catch (error) {
-            console.error("Ошибка "+ error);
+            console.error('Ошибка ' + error);
         }
     }
 
-
     renderTasks() {
-
         this.taskPlace.innerHTML = '';
-        
+
         if (this.tasks.length > 0) {
-            this.tasks.forEach(task => {
-                this.taskPlace.insertAdjacentHTML('beforeend', `
+            this.tasks.forEach((task) => {
+                this.taskPlace.insertAdjacentHTML(
+                    'beforeend',
+                    `
                     <div data-id="${task.id}" class="task ${task.completed ? 'done' : ''}" id="${task.id}">
                         <span class="priority ${task.priority}" title="Изменение приоритета">
                             <ion-icon name="information-circle-outline"></ion-icon>
@@ -52,78 +54,82 @@ export class TaskManager {
                             <ion-icon name="trash" class="trash" data-id="${task.id}" data-action="delete" tabindex="0"></ion-icon>
                         </span>
                     </div>
-                `);
+                `
+                );
             });
-
         } else {
             this.taskPlace.innerHTML = `<h3>Новых задач пока нет</h3><img src='img/non-task.png' alt='Задачи отсутствуют' width='300px' height='300px'>`;
         }
-        
     }
 
     async editTask() {
-        if (textarea.value.trim().length > 0 && confirm("Сохранить изменения?")) {
+        if (textarea.value.trim().length > 0 && confirm('Сохранить изменения?')) {
             try {
                 const editTask = await this.getTaskJson(this.appState.editID);
                 const status = document.querySelector('#editSelect');
                 const priority = document.querySelector('#editPrioritySelect');
-    
+
                 const newTaskJson = {
                     userId: editTask.userId,
                     id: editTask.id,
                     title: textarea.value,
                     completed: status.selectedIndex === 0,
-                    priority: priority.value
+                    priority: priority.value,
                 };
-    
+
                 const response = await fetch(this.testApiURL + this.appState.editID, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
+                        'Content-Type': 'application/json;charset=utf-8',
                     },
                     body: JSON.stringify(newTaskJson),
                 });
-    
+
                 if (!response.ok) {
-                    throw new Error('Задачу не получилось отредактировать. Повторить попытку позже');
+                    throw new Error(
+                        'Задачу не получилось отредактировать. Повторить попытку позже'
+                    );
                 } else {
-                    const index = this.tasks.findIndex(item => item.id === this.appState.editID);
+                    const index = this.tasks.findIndex((item) => item.id === this.appState.editID);
                     if (index !== -1) {
                         this.tasks[index].title = newTaskJson.title;
                         this.tasks[index].completed = newTaskJson.completed;
                         this.tasks[index].priority = newTaskJson.priority;
                     }
                     renderFilteredTask(this.tasks);
-    
+
                     mainStatistics.editTask += 1;
-    
+
                     showNotification({
                         type: 'success',
                         message: 'Задача обновлена',
-                        details: ""
+                        details: '',
                     });
-    
-                    return ['edit', {
-                        id: this.appState.editID,
-                        title: newTaskJson.title,
-                        status: newTaskJson.completed ? "Решено" : 'Не решено',
-                        date: new Date().toISOString().slice(0, 10),
-                        time: new Date().toISOString().slice(11, 19),
-                        status: 'Не выполнено'
-                    }];
+
+                    return [
+                        'edit',
+                        {
+                            id: this.appState.editID,
+                            title: newTaskJson.title,
+                            status: newTaskJson.completed ? 'Решено' : 'Не решено',
+                            date: new Date().toISOString().slice(0, 10),
+                            time: new Date().toISOString().slice(11, 19),
+                            status: 'Не выполнено',
+                        },
+                    ];
                 }
             } catch (error) {
                 showNotification({
                     type: 'error',
                     message: 'Что-то пошло не так',
-                    details: error.message
+                    details: error.message,
                 });
             }
         } else {
             showNotification({
                 type: 'warning',
                 message: 'Проверьте корректность данных',
-                details: "Задача не может быть пустой или состоять только из пробелов"
+                details: 'Задача не может быть пустой или состоять только из пробелов',
             });
         }
     }
@@ -132,7 +138,7 @@ export class TaskManager {
         const taskText = document.getElementById('newTask');
         const id = getLastId();
         const priority = document.getElementById('taskCategory').value;
-    
+
         if (taskText.value.trim().length > 0) {
             try {
                 const text = taskText.value.trim();
@@ -141,90 +147,96 @@ export class TaskManager {
                     id: id,
                     title: text,
                     completed: false,
-                    priority: priority
+                    priority: priority,
                 };
-    
+
                 const response = await fetch(this.testApiURL, {
-                    method: "POST",
+                    method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json;charset:utf-8'
+                        'Content-Type': 'application/json;charset:utf-8',
                     },
-                    body: JSON.stringify(newTask)
+                    body: JSON.stringify(newTask),
                 });
-    
+
                 if (response.ok) {
                     showNotification({
                         type: 'success',
                         message: 'Задача добавлена',
-                        details: `Текст задачи: ${taskText.value.trim()}`
+                        details: `Текст задачи: ${taskText.value.trim()}`,
                     });
-    
+
                     this.tasks.push(newTask);
                     renderFilteredTask(this.tasks);
                     mainStatistics.addTask += 1;
-    
+
                     taskText.value = '';
-    
-                    return ['add', {
-                        id: id,
-                        title: text,
-                        date: new Date().toISOString().slice(0, 10),
-                        time: new Date().toISOString().slice(11, 19),
-                        status: 'Не выполнено'
-                    }];
+
+                    return [
+                        'add',
+                        {
+                            id: id,
+                            title: text,
+                            date: new Date().toISOString().slice(0, 10),
+                            time: new Date().toISOString().slice(11, 19),
+                            status: 'Не выполнено',
+                        },
+                    ];
                 } else {
-                    throw new Error("Ошибка добавления задачи, попробуйте повторить попытку позже");
+                    throw new Error('Ошибка добавления задачи, попробуйте повторить попытку позже');
                 }
             } catch (error) {
                 showNotification({
                     type: 'error',
                     message: 'Что-то пошло не так...',
-                    details: error.message
+                    details: error.message,
                 });
             }
         } else {
             showNotification({
                 type: 'warning',
                 message: 'Проверьте корректность данных',
-                details: "Задача не может быть пустой или состоять только из пробелов"
+                details: 'Задача не может быть пустой или состоять только из пробелов',
             });
         }
     }
-    
+
     async deleteTask(id) {
         try {
             const response = await fetch(this.testApiURL + id, {
-                method: "DELETE"
+                method: 'DELETE',
             });
-    
+
             if (!response.ok) {
                 throw new Error(`Ошибка при удалении: ${response.statusText}`);
             }
 
             const taskElement = document.getElementById(id);
-    
+
             if (!taskElement) {
                 throw new Error('Элемент не найден');
             }
-            
-            this.tasks = this.tasks.filter(item => item.id !== id);
+
+            this.tasks = this.tasks.filter((item) => item.id !== id);
             mainStatistics.deletedTask += 1;
-    
+
             const taskText = document.querySelector(`[data-textid="${id}"]`).textContent;
             deleteAnimation(taskElement);
-    
-            return ['deleted', {
-                id: id,
-                title: taskText,
-                status: 'Удалена',
-                date: new Date().toISOString().slice(0, 10),
-                time: new Date().toISOString().slice(11, 19)
-            }];
+
+            return [
+                'deleted',
+                {
+                    id: id,
+                    title: taskText,
+                    status: 'Удалена',
+                    date: new Date().toISOString().slice(0, 10),
+                    time: new Date().toISOString().slice(11, 19),
+                },
+            ];
         } catch (error) {
             showNotification({
                 type: 'error',
                 message: 'При удалении возникла ошибка. Повторите попытку позже',
-                details: error.message
+                details: error.message,
             });
         }
     }
@@ -233,7 +245,7 @@ export class TaskManager {
         try {
             const task = this.getTaskJson(id);
             const updatedTask = document.getElementById(`${id}`);
-       
+
             if (!updatedTask) {
                 throw new Error('Элемент задачи не найден');
             }
@@ -241,74 +253,76 @@ export class TaskManager {
                 userId: task.userId,
                 id: task.id,
                 title: task.title,
-                completed: !task.completed
+                completed: !task.completed,
             };
-       
+
             updatedTask.classList.toggle('done');
-       
+
             const response = await fetch(this.testApiURL + id, {
                 method: 'PUT',
                 headers: {
-                'Content-Type': 'application/json;charset:utf-8'
+                    'Content-Type': 'application/json;charset:utf-8',
                 },
-                body: JSON.stringify(newJson)
+                body: JSON.stringify(newJson),
             });
-       
+
             if (!response.ok) {
                 updatedTask.classList.toggle('done');
                 throw new Error('Ошибка при обновлении задачи');
             }
-       
-            const index = this.tasks.findIndex(item => item.id === id);
+
+            const index = this.tasks.findIndex((item) => item.id === id);
 
             if (index !== -1) {
                 this.tasks[index].completed = newJson.completed;
-                newJson.completed ? mainStatistics.markDoneTask += 1 : mainStatistics.markDoneTask -= 1;
+                newJson.completed
+                    ? (mainStatistics.markDoneTask += 1)
+                    : (mainStatistics.markDoneTask -= 1);
             }
-       
-            return ['done', {
-                id: id,
-                title: task.title,
-                status: newJson.completed ? "Решено" : 'Не решено',
-                date: new Date().toISOString().slice(0, 10),
-                time: new Date().toISOString().slice(11, 19)
-            }];
 
+            return [
+                'done',
+                {
+                    id: id,
+                    title: task.title,
+                    status: newJson.completed ? 'Решено' : 'Не решено',
+                    date: new Date().toISOString().slice(0, 10),
+                    time: new Date().toISOString().slice(11, 19),
+                },
+            ];
         } catch (error) {
             console.error('Произошла ошибка:', error.message);
-            
+
             showNotification({
                 type: 'error',
                 message: 'Что-то пошло не так',
-                details: error.message
+                details: error.message,
             });
         }
-       }
+    }
 
     getTaskJson(id) {
         try {
-            return this.tasks.find(item => item.id === id);
-        }catch{
+            return this.tasks.find((item) => item.id === id);
+        } catch {
             console.log('Элемент не найден');
         }
     }
 
-    filtered(type){
-
-        if (type === "notCompleted") {
+    filtered(type) {
+        if (type === 'notCompleted') {
             this.appState.sortActive = false;
-            return this.tasks.filter(task => !task.completed);
+            return this.tasks.filter((task) => !task.completed);
         } else if (type === 'completed') {
             this.appState.sortActive = false;
-            return this.tasks.filter(task => task.completed);
+            return this.tasks.filter((task) => task.completed);
         } else {
             this.appState.sortActive = true;
             return this.tasks;
         }
     }
 
-    sort(type){
- 
+    sort(type) {
         if (type === 'completed-start') {
             return this.tasks.slice().sort((a, b) => Number(b.completed) - Number(a.completed));
         } else if (type === 'completed-end') {
@@ -317,7 +331,7 @@ export class TaskManager {
             return this.tasks;
         }
     }
-       
+
     async init() {
         const start = performance.now();
 
@@ -326,46 +340,46 @@ export class TaskManager {
 
         const end = performance.now();
         this.renderTime = Math.trunc(end - start);
-        setMainStatistic(1)
+        setMainStatistic(1);
     }
 
     setTheme(theme) {
         this.theme = theme;
     }
 
-    setEditID(id){
+    setEditID(id) {
         this.appState.editID = id;
     }
 
-    setFilters(type){
+    setFilters(type) {
         this.appState.filters = type;
     }
 
-    setSortStatus(stat){
+    setSortStatus(stat) {
         this.appState.sortActive = stat;
     }
 
-    getEditID(){
+    getEditID() {
         return this.appState.editID;
     }
 
-    getTheme(){
+    getTheme() {
         return this.theme;
     }
 
-    getFilters(){
+    getFilters() {
         return this.appState.filters;
     }
 
-    getTasksList(){
+    getTasksList() {
         return this.tasks;
     }
 
-    getSortStatus(){
+    getSortStatus() {
         return this.appState.sortActive;
     }
 
-    getRenderTime(){
+    getRenderTime() {
         return this.renderTime;
     }
 }

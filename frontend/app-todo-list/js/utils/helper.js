@@ -1,9 +1,8 @@
-import { taskManager, editConteiner, textarea} from "../main";
+import { taskManager, editConteiner, textarea } from '../main';
 
 const taskPlace = document.querySelector('.taskList');
 
 export function loader(status) {
-    
     if (status) {
         if (!document.querySelector('.loader')) {
             taskPlace.insertAdjacentHTML('beforeend', "<div class='loader'></div>");
@@ -38,7 +37,6 @@ export function showNotification({ type, message, details }) {
 }
 
 export function openTaskEdit(id) {
-    
     const taskElement = document.querySelector(`[data-textid="${id}"]`);
     if (!taskElement) {
         console.warn(`Элемент с data-textid="${id}" не найден.`);
@@ -84,7 +82,7 @@ export function deleteAnimation(element) {
         showNotification({
             type: 'success',
             message: 'Удалено 👌',
-            details: ''
+            details: '',
         });
     }, 250);
 }

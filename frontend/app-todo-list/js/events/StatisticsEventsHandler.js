@@ -1,5 +1,5 @@
-import { setMainStatistic } from "../statPanel/panelModel";
-import { loadOtherTasksFromStorage } from "../statPanel/panelFunc";
+import { setMainStatistic } from '../statPanel/panelModel';
+import { loadOtherTasksFromStorage } from '../statPanel/panelFunc';
 
 export const storageListener = () => {
     window.addEventListener('storage', (event) => {
