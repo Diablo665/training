@@ -1,5 +1,5 @@
 import { taskManager, editConteiner, textarea } from '../main';
-
+import { autoResize } from '../events/eventHandlers';
 const taskPlace = document.querySelector('.taskList');
 
 export function loader(status) {

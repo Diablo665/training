@@ -116,7 +116,7 @@ export function mainKeyHandler() {
 }
 
 export function selectListener() {
-    const selectors = document.querySelectorAll('#categoryFilter');
+    const selectors = document.querySelectorAll('.categoryFilter');
     selectors.forEach((elem) => {
         elem.addEventListener('change', (event) => {
             const type = event.target.value;
