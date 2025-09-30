@@ -5,30 +5,28 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: {
-        main: [
-            'webpack-hot-middleware/client?reload=true',
-            './app-todo-list/js/main.js'
-        ],
-        statistics: [
-            'webpack-hot-middleware/client?reload=true',
-            './app-todo-list/js/statistics.js'
-        ]
+        main: './app-todo-list/js/main.js',
+        statistics: './app-todo-list/js/statistics.js'
+
     },
-    mode: 'production',
+    mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
         hot: true,
         port: 5500,
+        host: 'localhost',
         static: {
-            directory: path.join(__dirname, 'dist')
+            directory: path.join(__dirname, 'app-todo-list'),
+            serveIndex: false, 
+            watch: true
         },
-        historyApiFallback: true,
+        historyApiFallback: true, 
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/', // Публичный путь должен совпадать с devServer
         filename: 'js/[name].js',
-        chunkFilename: 'js/[name].js',
-        publicPath: '/'
+        chunkFilename: 'js/[name].js'
     },
 
     optimization: {
@@ -48,12 +46,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './app-todo-list/index.html',
             filename: 'index.html',
-            chunks: 'index'
         }),
         new HtmlWebpackPlugin({
             template: './app-todo-list/statistics.html',
             filename: 'statistics.html',
-            chunks: 'statistics'
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css'
