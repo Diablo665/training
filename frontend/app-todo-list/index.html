@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список задач</title>
-    <link rel = "stylesheet" href = "./css/main.css">
-    <link rel = "stylesheet" href = "./css/categoryStyles.css">
     <link rel = "icon", href = "img/icon.ico">
     <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
 </head>
@@ -37,7 +35,7 @@
                 <div class="filters">
                     <p class="filter-description">Статус задач:</p>
                     <div class="categories">
-                        <select id="categoryFilter">
+                        <select class="categoryFilter">
                             <option value="all">Все</option>
                             <option value="completed">Решенные</option>
                             <option value="notCompleted">Нерешённые</option>                        
@@ -46,7 +44,7 @@
 
                     <p class="filter-description">Сортировка: </p>
                     <div class="categories">
-                        <select id="categoryFilter" class="sort">
+                        <select class="categoryFilter sort">
                             <option value="default">По умолчанию</option>
                             <option value="completed-start">Сначала решённые</option>
                             <option value="completed-end">Сначала не решенные</option>            
@@ -106,5 +104,4 @@
         </div>
     </div>
 
-    <script type="module" src="./js/main.js"></script>
 </html>
