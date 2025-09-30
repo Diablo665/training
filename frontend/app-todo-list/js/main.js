@@ -5,7 +5,7 @@ import {
     mainKeyHandler,
     selectListener,
     searchListener,
-} from './events/eventHandlers.js';
+} from './events/eventHandlers';
 import { loader } from './utils/helper';
 import { TaskManager } from './tasks/taskModel';
 import { setThemeInLoad } from './utils/themes';
