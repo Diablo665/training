@@ -19,15 +19,30 @@ module.exports = {
     devServer: {
         hot: true,
         port: 5500,
-        contentBase: './dist',
+        static: {
+            directory: path.join(__dirname, 'dist')
+        },
         historyApiFallback: true,
-        watchContentBase: true,
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/[name].js',
         chunkFilename: 'js/[name].js',
         publicPath: '/'
+    },
+
+    optimization: {
+        minimize: true,
+        usedExports: true,
+        splitChunks: {
+            chunks: 'all'
+        }
+    },
+
+    performance: {
+        maxAssetSize: 700000, 
+        maxEntrypointSize: 700000, 
+        hints: 'warning'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -41,7 +56,6 @@ module.exports = {
             chunks: 'statistics'
         }),
         new MiniCssExtractPlugin({
-
             filename: 'css/[name].css'
         }),
         new webpack.HotModuleReplacementPlugin()
