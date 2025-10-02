@@ -1,4 +1,5 @@
 import { addTaskToTable } from './panelModel';
+import { Storage } from '../utils/localStorage';
 
 const elemTag = {
     addTaskList: '#addTaskStat',
@@ -12,7 +13,8 @@ export function updateClass(elem, time) {
 }
 
 export function loadOtherTasksFromStorage(type) {
-    const tasks = JSON.parse(localStorage.getItem(type)) || [];
+    const storage = new Storage(); 
+    const tasks = storage.get(type) || [];
 
     if (tasks.length === 0) return;
 

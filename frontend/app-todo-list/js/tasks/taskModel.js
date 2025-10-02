@@ -1,6 +1,6 @@
 import { showNotification, getLastId, deleteAnimation } from '../utils/helper';
 import { renderFilteredTask } from '../filters/filters';
-import { mainStatistics, setMainStatistic } from '../utils/statistics';
+import { mainStatistics, setMainStatistic, createTaskData } from '../utils/statistics';
 import { textarea } from '../main';
 export class TaskManager {
     constructor() {
@@ -22,7 +22,7 @@ export class TaskManager {
     async getTasks() {
         try {
             const response = await fetch(
-                'https://jsonplaceholder.typicode.com/todos?_page=0&_limit=12'
+                `${this.testApiURL}?_page=0&_limit=12`
             );
             if (response.ok) {
                 const json = await response.json();
@@ -77,7 +77,7 @@ export class TaskManager {
                     priority: priority.value,
                 };
 
-                const response = await fetch(this.testApiURL + this.appState.editID, {
+                const response = await fetch(`${this.testApiURL}${this.appState.editID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8',
@@ -108,14 +108,7 @@ export class TaskManager {
 
                     return [
                         'edit',
-                        {
-                            id: this.appState.editID,
-                            title: newTaskJson.title,
-                            status: newTaskJson.completed ? 'Решено' : 'Не решено',
-                            date: new Date().toISOString().slice(0, 10),
-                            time: new Date().toISOString().slice(11, 19),
-                            status: 'Не выполнено',
-                        },
+                        createTaskData(this.appState.editID, newTaskJson.title, newTaskJson.completed ? 'Решено' : 'Не решено')
                     ];
                 }
             } catch (error) {
@@ -173,13 +166,7 @@ export class TaskManager {
 
                     return [
                         'add',
-                        {
-                            id: id,
-                            title: text,
-                            date: new Date().toISOString().slice(0, 10),
-                            time: new Date().toISOString().slice(11, 19),
-                            status: 'Не выполнено',
-                        },
+                        createTaskData(id, text, 'Не выполнено')
                     ];
                 } else {
                     throw new Error('Ошибка добавления задачи, попробуйте повторить попытку позже');
@@ -202,7 +189,7 @@ export class TaskManager {
 
     async deleteTask(id) {
         try {
-            const response = await fetch(this.testApiURL + id, {
+            const response = await fetch(`${this.testApiURL}${id}`, {
                 method: 'DELETE',
             });
 
@@ -224,13 +211,7 @@ export class TaskManager {
 
             return [
                 'deleted',
-                {
-                    id: id,
-                    title: taskText,
-                    status: 'Удалена',
-                    date: new Date().toISOString().slice(0, 10),
-                    time: new Date().toISOString().slice(11, 19),
-                },
+                createTaskData(id, taskText, 'Удалена')
             ];
         } catch (error) {
             showNotification({
@@ -258,7 +239,7 @@ export class TaskManager {
 
             updatedTask.classList.toggle('done');
 
-            const response = await fetch(this.testApiURL + id, {
+            const response = await fetch(`${this.testApiURL}${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json;charset:utf-8',
@@ -282,13 +263,7 @@ export class TaskManager {
 
             return [
                 'done',
-                {
-                    id: id,
-                    title: task.title,
-                    status: newJson.completed ? 'Решено' : 'Не решено',
-                    date: new Date().toISOString().slice(0, 10),
-                    time: new Date().toISOString().slice(11, 19),
-                },
+                createTaskData(id, task.title, newJson.completed ? 'Решено' : 'Не решено')
             ];
         } catch (error) {
             console.error('Произошла ошибка:', error.message);
