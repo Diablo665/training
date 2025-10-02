@@ -75,8 +75,9 @@
         <div id="otherStatistics"> 
 
         
-            <div> 
+            <div class = 'stats-block'> 
                 <h4> Статистика добавленных задач:</h4>
+                <button class="delete-button" data-key="addTaskList">Удалить</button>
                 <table id="addTaskStat" class="taskStatusTable">
                     <thead>
                         <tr>
@@ -94,8 +95,9 @@
                 </table>
             </div>
         
-            <div > 
+            <div class = 'stats-block'> 
                 <h4> Статистика отредактированных задач:</h4>
+                <button class="delete-button" data-key="editTaskList">Удалить</button>
                 <table id="editTaskStat" class="taskStatusTable">
                     <thead>
                         <tr>
@@ -113,9 +115,10 @@
                 </table>
             </div>
         
-            <div> 
+            <div class = 'stats-block'> 
                 <h4> Статистика удалённых задач:</h4>
-                <table id="deleteTaskStat" class="taskStatusTable">
+                <button class="delete-button" data-key="deletedTaskList">Удалить</button>
+                <table id="deletedTaskStat" class="taskStatusTable">
                     <thead>
                         <tr>
                             <th>Номер</th>
@@ -132,9 +135,10 @@
                 </table>
             </div>
         
-            <div> 
+            <div class = 'stats-block'> 
                 <h4> Статистика решённых задач задач:</h4>
-                <table id='markDoneTaskStat' class="taskStatusTable">
+                <button class="delete-button" data-key="doneTaskList">Удалить</button>
+                <table id='doneTaskStat' class="taskStatusTable">
                     <thead>
                         <tr>
                             <th>Номер</th>
