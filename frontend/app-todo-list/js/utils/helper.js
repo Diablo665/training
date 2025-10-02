@@ -1,7 +1,8 @@
-import { testApiURL, editConteiner, textarea, appState } from '../tasks/taskModel.js';
+import { taskManager, editConteiner, textarea } from '../main';
+import { autoResize } from '../events/eventHandlers';
+const taskPlace = document.querySelector('.taskList');
 
 export function loader(status) {
-    const taskPlace = document.querySelector('.taskList');
     if (status) {
         if (!document.querySelector('.loader')) {
             taskPlace.insertAdjacentHTML('beforeend', "<div class='loader'></div>");
@@ -36,7 +37,6 @@ export function showNotification({ type, message, details }) {
 }
 
 export function openTaskEdit(id) {
-    
     const taskElement = document.querySelector(`[data-textid="${id}"]`);
     if (!taskElement) {
         console.warn(`Элемент с data-textid="${id}" не найден.`);
@@ -50,7 +50,7 @@ export function openTaskEdit(id) {
     textarea.value = taskText;
     textarea.focus();
 
-    appState.editID = id;
+    taskManager.setEditID(id);
 
     autoResize();
 }
@@ -58,23 +58,6 @@ export function openTaskEdit(id) {
 export function closeTaskEdit() {
     editConteiner.style.display = 'none';
     document.body.style.overflow = '';
-}
-
-export async function getTaskJson(id) {
-    try {
-        const url = testApiURL + id;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`Произошла ошибка: ${response.status} ${response.statusText}`);
-        }
-
-        const json = await response.json();
-        return json;
-    } catch (error) {
-        console.error('Произошла ошибка:', error.message);
-        return null;
-    }
 }
 
 export function getLastId() {
@@ -99,7 +82,7 @@ export function deleteAnimation(element) {
         showNotification({
             type: 'success',
             message: 'Удалено 👌',
-            details: ''
+            details: '',
         });
     }, 250);
 }

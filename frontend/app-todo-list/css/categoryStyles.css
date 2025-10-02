@@ -22,7 +22,7 @@
     justify-content: center;
 }
 
-#categoryFilter,
+.categoryFilter,
 #taskCategory {
     position: relative;
     display: inline-block;
@@ -138,11 +138,13 @@
 
    }
 
-#categoryFilter:hover {
+.categoryFilter:hover,
+#taskCategory:hover{
  border-color: rgba(0, 189, 255, 0.5);
 }
 
-#categoryFilter:focus {
+.ryFilter:focus,
+#taskCategory:focus {
  border-color: rgba(0, 189, 255, 0.7);
  box-shadow: 0 0 0 2px rgba(0, 189, 255, 0.3);
 }
@@ -227,7 +229,7 @@
 }
 
 @media (max-width: 1000px){
-    #categoryFilter{
+    .categoryFilter{
         width: 100%;
     }
 

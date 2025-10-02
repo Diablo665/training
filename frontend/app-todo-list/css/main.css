@@ -3,7 +3,7 @@
     --bg-panels: rgba(33, 33, 33, 0.9);
     --text: #ecf0f1;
     --task-bg: rgba(50, 50, 50, 0.8);
-    --task-hover-bg: rgba(60, 60, 60, 0.9)
+    --task-hover-bg: rgba(60, 60, 60, 0.9);
     --input-border:rgba(255, 255, 255, 0.3);
     --input-bg: #b3b3b300;
 }
@@ -216,6 +216,28 @@ ion-icon {
     overflow:visible;
 }
 
+.priority{
+    margin-right: 5px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.priority ion-icon:hover{
+    transform: scale(1.1);
+}
+
+.low{
+    color: rgb(0, 255, 0);
+}
+
+.medium{
+    color: rgb(255, 255, 0);
+}
+
+.high{
+    color: rgb(255, 0, 0);
+}
+
 .task .taskButtons {
     display: flex;
     gap: 10px;
@@ -256,7 +278,7 @@ ion-icon {
 .done {
     text-decoration: line-through;
     background-color: rgba(111, 244, 111, 0.3);
-    color: var(text);
+    color: var(--text);
 }
 
 .done:hover {
@@ -308,7 +330,7 @@ textarea {
     font-family: "Courier New", Courier, monospace;
     font-size: 18px;
     background-color: var(--input-bg); 
-    color: var(text); 
+    color: var(--text); 
     border: 1px solid var(--input-border);
 }
 
@@ -327,6 +349,7 @@ select {
     background: var(--input-bg);
     padding: 5px;
     transition: 0.4s;
+    margin-bottom: 5px;
 }
 
 select:focus,
@@ -377,6 +400,25 @@ option:hover {
 #saveEdit:hover, #saveEdit:focus {
     background-color: rgba(30, 255, 0, 0.7);
     box-shadow: 1px 0px 10px 5px rgb(42 255 0 / 70%);
+}
+
+#right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#right a{
+    margin-right: 20px;
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+#right a:hover{
+    transform: scale(1.05);
+    
 }
 
 @media (max-width: 768px) {

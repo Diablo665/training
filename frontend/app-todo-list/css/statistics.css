@@ -1,0 +1,275 @@
+:root{
+    --bg-main: linear-gradient(90deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    --bg-panels: rgba(33, 33, 33, 0.9);
+    --text: #ecf0f1;
+    --panel-bg: rgba(50, 50, 50, 0.8);
+    --panel-hover-bg: rgba(60, 60, 60, 0.9);
+    --input-border:rgba(255, 255, 255, 0.3);
+    --input-bg: #b3b3b300;
+    --warning-panel-bg: #2388fca6;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text);
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: var(--bg-panels);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+   
+header h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+   
+
+header h1 ion-icon {
+    margin-right: 8px;
+
+}
+
+#right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#right a{
+    margin-right: 20px;
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+#right a:hover{
+    transform: scale(1.05);
+    
+}
+
+#themeButton {
+    background: transparent;
+    border: 1px solid var(--input-border);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text);
+   }
+   
+#themeButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+   }
+
+#themeButton:hover ion-icon {
+    transform: rotate(15deg);
+}
+   
+#themeButton:active {
+    transform: scale(0.98);
+}
+   
+#themeButton ion-icon {
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+}
+
+
+.warning-message {
+    background: #528eff8a;
+    padding: 15px;
+    border-left: 4px solid #0059ff;
+    border-radius: 5px;
+}
+
+.green{
+    color: #56ff5699
+}
+
+.blue{
+    color: #3f3fffde
+}
+
+.red{
+    color: #ff2a2a94
+}
+
+#statisticsConteiner{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 10px;
+    font-size: 25px;
+}
+
+#statisticsConteiner h4{
+    text-align:center;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+}
+
+#statisticsConteiner #mainStatistics, #otherStatistics, #loadStat{
+    background: var(--bg-panels);
+    margin-bottom: 10px;
+    border: 1px solid #8080808c;
+    border-radius: 5px;
+    box-shadow: 1px 0px 1px 5px rgb(87 86 86 / 15%);
+}
+
+#mainStatistics{
+    display:flex;
+    justify-content: space-around;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+
+#mainStatistics .blockStat, #loadStat .blockStat{
+    margin: 10px;
+    border: 1px solid #7676769e;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 87%);
+    color: var(--text);
+    
+}
+
+#loadStat{
+    text-align: center
+}
+
+.blockStat span{
+    font-size: 35px;
+}
+
+.taskStatusTable{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    background-color: var(--bg-panels);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 87%);
+    font-size: 18px;
+}
+
+.taskStatusTable thead {
+    background-color: var(--panel-bg);
+}
+
+.taskStatusTable th {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid var(--input-border);
+    font-weight: bold;
+    color: var(--text);
+}
+
+.taskStatusTable tbody tr {
+    border-bottom: 1px solid var(--input-border);
+}
+
+.taskStatusTable td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border: 1px solid var(--input-border);
+    color: var(--text);
+}
+
+.taskStatusTable tbody tr:nth-child(even) {
+    background-color: var(--panel-bg);
+}
+
+.taskStatusTable tbody tr:hover {
+    background-color: var(--panel-hover-bg);
+    cursor: pointer;
+}
+
+.stats-block {
+    border: 1px solid #0000007e;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 87%);
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .taskStatusTable th,
+    .taskStatusTable td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    #mainStatistics .blockStat{
+        width: 100%
+    }
+
+    #statisticsConteiner{
+        font-size: 18px;
+    }
+    
+    .blockStat span{
+        font-size:20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .taskStatusTable th,
+    .taskStatusTable td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    #mainStatistics .blockStat{
+        width: 100%
+    }
+
+    #statisticsConteiner{
+        font-size: 16px;
+    }
+    
+    .blockStat span{
+        font-size:18px;
+    }
+}
