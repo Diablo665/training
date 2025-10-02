@@ -1,7 +1,8 @@
 import { taskManager } from '../main';
+import { storage } from './localStorage';
 
 const icon = document.querySelector('#iconType');
-const saved = localStorage.getItem('appTheme');
+const saved = storage.get('appTheme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 export function setThemeInLoad() {
@@ -27,7 +28,7 @@ export function updateTheme() {
         document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    localStorage.setItem('appTheme', taskManager.getTheme());
+    storage.set('appTheme', taskManager.getTheme());
     updateThemeButton();
 }
 

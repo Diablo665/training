@@ -1,6 +1,7 @@
 // Элементы верхнего списка
 
 import { updateClass } from './panelFunc';
+import {storage} from '../utils/localStorage'
 
 const addStatusElem = document.querySelector('#addStat');
 const editStatusElem = document.querySelector('#editStat');
@@ -16,21 +17,25 @@ const statisticsLoad = document.querySelector('#loadStatistics');
 let start;
 
 export function setMainStatistic() {
+    const start = performance.now();
     try {
-        start = performance.now();
-        const statistics = JSON.parse(localStorage.getItem('mainStatistics'));
 
-        addStatusElem.textContent = statistics.addTask;
-        editStatusElem.textContent = statistics.editTask;
-        deletedStatusElem.textContent = statistics.deletedTask;
-        markDoneStatusElem.textContent = statistics.markDoneTask;
-        undoneStatusElem.textContent = statistics.undoneTask;
-        doneStatusElem.textContent = statistics.doneTask;
-        toDoListLoad.textContent = `${statistics.renderTaskTime} мс`;
+        const statistics = storage.get('mainStatistics');
 
-        statisticsLoad.textContent = `${Number(performance.now() - start).toFixed(2)} мс`;
+        if (statistics) {
+            addStatusElem.textContent = statistics.addTask;
+            editStatusElem.textContent = statistics.editTask;
+            deletedStatusElem.textContent = statistics.deletedTask;
+            markDoneStatusElem.textContent = statistics.markDoneTask;
+            undoneStatusElem.textContent = statistics.undoneTask;
+            doneStatusElem.textContent = statistics.doneTask;
+            toDoListLoad.textContent = `${statistics.renderTaskTime} мс`;
 
-        updateClass(toDoListLoad, statistics.renderTaskTime);
+            statisticsLoad.textContent = `${Number(performance.now() - start).toFixed(2)} мс`;
+            statisticsLoad.textContent = `${Number(performance.now() - start).toFixed(2)} мс`;
+
+            updateClass(toDoListLoad, statistics.renderTaskTime);
+        }
     } catch (error) {
         console.error('Ошибка получения статистики:', error);
     }

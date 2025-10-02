@@ -1,4 +1,5 @@
 import { taskManager } from '../main';
+import { storage } from './localStorage';
 
 export const mainStatistics = {
     haveTask: 0,
@@ -10,11 +11,6 @@ export const mainStatistics = {
     undoneTask: 0,
     renderTaskTime: 0,
 };
-
-const addTaskList = [];
-const editTaskList = [];
-const deletedTaskList = [];
-const doneTaskList = [];
 
 export function setMainStatistic(haveTasks) {
     mainStatistics.doneTask = 0;
@@ -34,43 +30,66 @@ export function setMainStatistic(haveTasks) {
         mainStatistics.renderTaskTime = taskManager.getRenderTime();
     }
 
-    localStorage.setItem('mainStatistics', JSON.stringify(mainStatistics));
+    storage.set('mainStatistics', mainStatistics);
 }
 
 export function updateStorage(type, data, time) {
+
     data.timeEvent = time;
 
     switch (type) {
         case 'add':
+            const addTaskList = storage.get('addTaskList') || [];
             addTaskList.push(data);
-            localStorage.setItem('addTaskList', JSON.stringify(addTaskList));
+            storage.set('addTaskList', addTaskList);
             break;
         case 'edit':
+            const editTaskList = storage.get('editTaskList') || [];
             editTaskList.push(data);
-            localStorage.setItem('editTaskList', JSON.stringify(editTaskList));
+            storage.set('editTaskList', editTaskList);
             break;
         case 'deleted':
+            const deletedTaskList = storage.get('deletedTaskList') || [];
             deletedTaskList.push(data);
-            localStorage.setItem('deletedTaskList', JSON.stringify(deletedTaskList));
+            storage.set('deletedTaskList', deletedTaskList);
             break;
         case 'done':
+            const doneTaskList = storage.get('doneTaskList') || [];
             doneTaskList.push(data);
-            localStorage.setItem('doneTaskList', JSON.stringify(doneTaskList));
+            storage.set('doneTaskList', doneTaskList);
             break;
     }
 
-    localStorage.setItem('mainStatistics', JSON.stringify(mainStatistics));
+    const mainStatistics = storage.get('mainStatistics') || {};
+    storage.set('mainStatistics', mainStatistics);
 }
 
 export async function measureFunction(func, ...args) {
     const start = performance.now();
-    const result = await func(...args);
-    const end = performance.now();
-    const timeEvent = end - start;
+    try {
+        const result = await func(...args);
+        const end = performance.now();
+        const timeEvent = end - start;
 
-    console.log(result);
+        console.log(`Результат выполнения функции:`, result);
 
-    updateStorage(result[0], result[1], timeEvent);
+        if (result) {
+            updateStorage(result[0], result[1], timeEvent);
+            setMainStatistic(1);
+        } else {
+            console.warn('Результат функции пустой, статистика не обновлена');
+        }
+    } catch (error) {
+        console.error('Ошибка при выполнении функции:', error);
+    }
+}
 
-    setMainStatistic(1);
+export function createTaskData(id, title, status) {
+    return {
+        id: id,
+        title: title,
+        status: status,
+        date: new Date().toISOString().slice(0, 10),
+        time: new Date().toISOString().slice(11, 19),
+    };
 }

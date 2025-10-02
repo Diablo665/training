@@ -1,11 +1,11 @@
 import { addTaskToTable } from './panelModel';
-import { Storage } from '../utils/localStorage';
+import { storage } from '../utils/localStorage'
 
 const elemTag = {
     addTaskList: '#addTaskStat',
-    deletedTaskList: '#deleteTaskStat',
+    deletedTaskList: '#deletedTaskStat',
     editTaskList: '#editTaskStat',
-    doneTaskList: '#markDoneTaskStat',
+    doneTaskList: '#doneTaskStat',
 };
 
 export function updateClass(elem, time) {
@@ -13,7 +13,7 @@ export function updateClass(elem, time) {
 }
 
 export function loadOtherTasksFromStorage(type) {
-    const storage = new Storage(); 
+    
     const tasks = storage.get(type) || [];
 
     if (tasks.length === 0) return;
