@@ -211,6 +211,29 @@ header h1 ion-icon {
     cursor: pointer;
 }
 
+.stats-block {
+    border: 1px solid #0000007e;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 87%);
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
 @media (max-width: 768px) {
     .taskStatusTable th,
     .taskStatusTable td {
